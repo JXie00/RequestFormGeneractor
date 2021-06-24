@@ -15,14 +15,4 @@ if (canvas.getContext) {
 }
 
 
-const options = {
-    method: "POST",
-    Headers: {
-        "Content_Type" : "application/json",
-
-    },
-    body: JSON.stringify(),
-}
-
-const response = ("/api", options)
 
