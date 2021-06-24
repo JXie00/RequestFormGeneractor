@@ -14,10 +14,6 @@ if (canvas.getContext) {
     ctx.stroke();
 }
 
-let data = {
-    name:"IDOnt",
-    age: 11,
-};
 
 const options = {
     method: "POST",
@@ -25,8 +21,8 @@ const options = {
         "Content_Type" : "application/json",
 
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(),
 }
-const response = fetch("/api", options)
 
-console.log(response.response);
+const response = ("/api", options)
+
