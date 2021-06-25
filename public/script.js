@@ -14,5 +14,3 @@ if (canvas.getContext) {
     ctx.stroke();
 }
 
-
-

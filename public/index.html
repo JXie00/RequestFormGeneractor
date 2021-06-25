@@ -15,7 +15,7 @@
     <div class="MainContainer">
 
     <div class="sampleContainer">
-      <form action="/connect">
+      <form action="">
         <p><b>*Please indicates specimen location</b></p>
         <label for="Specimen"><b>*Sample Location:</label><br>
         <canvas id = "samplecanvas"></canvas>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="StringContainer">
-      <form action="/post" method="POST">
+      <form action="/connect" method="POST">
         <label for="ClinicalHisotry"><b>*Clinical Hisotry:</label><br>
           <input type="text" id="ClinicalHisotry" name="ClinicalHisotry"><br>
 
@@ -36,15 +36,18 @@
               <label for="differentialDiag"><b>*Differential Diagnosis:</label><br>
                 <input type="text" id="differentialDiag" name="differentialDiag"><br>
 
-                <input type="submit" value="Submit"/>
+                <div class="sticky">
+                  <input type="submit" value="Save" id="savebtn" />
+                  <button id='printbtn'>Print</button>
+                </div>
   
 
       </form>
     </div>
-    <div class="sticky">
-      <button id="savebtn">Save</button>
+    <!-- <div class="sticky">
+       <button id="savebtn">Save</button>
       <button id='printbtn'>Print</button>
-    </div>
+    </div>  -->
   </div>
 
   <link rel="stylesheet" href="styless.css" />
