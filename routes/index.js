@@ -9,6 +9,7 @@ router.use(express.urlencoded({
 }));
 
 
+
 let config = {
     user: 'sa',
     password: '0vODz]84',
@@ -34,15 +35,22 @@ let config = {
     }
   })();
 
-const pdfName = '';
+
 router.get("/pdf/:PDFName",async (req,res)=> {
-         pdfName = req.params.PDFName;
-        // const result =  await sql.query("SELECT * FROM DBO.SampleIndicator where RequestCode = '"+pdfName+"'");
-        const result =  await sql.query("SELECT * FROM DBO.SampleIndicator as S,DBO.PathologyOrdering as P where p.RequestCode = S.RequestCode and S.RequestCode = '"+pdfName+"'");
-        console.log(result.recordsets[0][0]);
+         const pdfName = req.params.PDFName;
+         //regex format 
+         const petInformation = await sql.query("SELECT PatFirstName, PatDOB, PatSex From DBO.PathologyOrdering where RequestCode = '"+pdfName+"'")
+         let petInfo = petInformation.recordsets[0][0];
+        
+         let age = new Date();
+         age -= petInfo.PatDOB;
+    
+         let animalName = petInfo.PatFirstName;
+        
+         let sex = petInfo.PatSex =='M' ? "Male": "Female";
+         console.log(age,animalName,sex);
 
 })
-
 
 
 
