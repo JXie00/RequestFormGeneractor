@@ -14,66 +14,80 @@ router.use(
 
 let IsNew = true;
 
-let pdfName = String;
+let requestCode = String;
+
+let regex = new RegExp(/^(US|AU)[0-9]{3,5}[-]\w{2}\d{3,5}$/);
+let isId = false;
 
 router.get("/pdf/:PDFName", async (req, res) => {
-  try {
-    pdfName = req.params.PDFName;
-    //regex format
+  requestCode = req.params.PDFName;
 
-    //petinfo
-    const petInformation = await sql.query(
-      `SELECT PatFirstName, PatDOB, PatSex From DBO.PathologyOrdering where RequestCode ='${pdfName}' `
-    );
-    let petInfo = petInformation.recordsets[0][0];
-    let age = new Date();
+  regex.test(requestCode) ? (isId = true) : (isId = false);
 
-    const days = Math.floor(
-      (((age - petInfo.PatDOB) / 1000 / 3600 / 24) % 365) % 30
-    );
-    const months = Math.floor(
-      (((age - petInfo.PatDOB) / 1000 / 3600 / 24) % 365) / 30
-    );
-    const years = Math.floor((age - petInfo.PatDOB) / 1000 / 3600 / 24 / 365);
+  if (isId == false) {
+    res.status(404).send("page could not be found");
+  } else {
+    try {
+      //petinfo
+      const petInformation = await sql.query(
+        `SELECT PatFirstName, PatDOB, PatSex From DBO.PathologyOrdering where RequestCode ='${requestCode}' `
+      );
+      let petInfo = petInformation.recordsets[0][0];
+      let age = new Date();
 
-    let animalName = petInfo.PatFirstName;
+      const days = Math.floor(
+        (((age - petInfo.PatDOB) / 1000 / 3600 / 24) % 365) % 30
+      );
+      const months = Math.floor(
+        (((age - petInfo.PatDOB) / 1000 / 3600 / 24) % 365) / 30
+      );
+      const years = Math.floor((age - petInfo.PatDOB) / 1000 / 3600 / 24 / 365);
 
-    let sex = petInfo.PatSex == "M" ? "Male" : "Female";
-    console.log(years + " y", months + " m", days + " d", animalName, sex);
+      let animalName = petInfo.PatFirstName;
 
-    //ownerInfo
-    const ownerInformation = await sql.query(
-      `SELECT Owner, Species, Breed, Desexed FROM DBO.Patients,DBO.PathologyOrdering where Patient# = P2kPatientID and  RequestCode = '${pdfName}'`
-    );
-    const ownerInfo = ownerInformation.recordsets[0][0];
-    const Owner = ownerInfo.Owner;
-    const Species = ownerInfo.Species;
-    const Breed = ownerInfo.Breed;
-    const Desexed = ownerInfo.Desexed;
+      let sex = petInfo.PatSex == "M" ? "Male" : "Female";
+      const patAge = `${years} y ${months} m ${days} d`;
+      console.log(patAge, animalName, sex);
 
-    console.log(Owner, Species, Breed, Desexed);
+      //ownerInfo
+      const ownerInformation = await sql.query(
+        `SELECT Owner, Species, Breed, Desexed FROM DBO.Patients,DBO.PathologyOrdering where Patient# = P2kPatientID and  RequestCode = '${requestCode}'`
+      );
+      const ownerInfo = ownerInformation.recordsets[0][0];
+      const owner = ownerInfo.Owner;
+      const species = ownerInfo.Species;
+      const breed = ownerInfo.Breed;
+      const desexed = ownerInfo.Desexed;
 
-    //ClinicInfo
-    const ClinicInformation = await sql.query(
-      `SELECT Surname,[First Name] as FirstName,[Address Line 1] as Address1, [Address Line 2] as Address2, Suburb, State, Postcode From DBO.Addresses as A, DBO.pathologyOrdering as P where A.ID = P.P2kAddressId and P.RequestCode = '${pdfName}'`
-    );
-    const ClinicInfo = ClinicInformation.recordsets[0][0];
-    const ClinicDetails = ClinicInfo.Address1;
-    const Address =
-      ClinicInfo.Address2 +
-      " " +
-      ClinicInfo.Suburb +
-      " ," +
-      ClinicInfo.State +
-      " " +
-      ClinicInfo.Postcode;
+      console.log(owner, species, breed, desexed);
 
-    const surname = ClinicInfo.Surname;
-    const FirstName = ClinicInfo.FirstName;
-    console.log(ClinicDetails);
-    console.log(Address);
-  } catch (err) {
-    console.log(err);
+      //ClinicInfo
+      const ClinicInformation = await sql.query(
+        `SELECT Surname,[First Name] as FirstName,[Address Line 1] as Address1, [Address Line 2] as Address2, Suburb, State, Postcode From DBO.Addresses as A, DBO.pathologyOrdering as P where A.ID = P.P2kAddressId and P.RequestCode = '${requestCode}'`
+      );
+      const ClinicInfo = ClinicInformation.recordsets[0][0];
+      const clinicDetails = ClinicInfo.Address1;
+      const address = `${ClinicInfo.Address2} ,${ClinicInfo.Suburb} ,${ClinicInfo.State} ${ClinicInfo.Postcode}`;
+
+      const surname = ClinicInfo.Surname;
+      const firstName = ClinicInfo.FirstName;
+      const data = {
+        Age: patAge,
+        AnimalName: animalName,
+        Sex: sex,
+        Owner: owner,
+        Species: species,
+        Breed: breed,
+        Desexed: desexed,
+        ClinicDetails: clinicDetails,
+        Address: address,
+        Surname: surname,
+        FirstName: firstName,
+      };
+      res.json(data);
+    } catch (err) {
+      res.send(err);
+    }
   }
 });
 
@@ -83,19 +97,19 @@ router.post("/connect", async (req, res) => {
   //   console.log(pdfName);
 
   const check = await sql.query(
-    `SELECT ID FROM dbo.sampleindicator where requestCode ='${pdfName}' `
+    `SELECT ID FROM dbo.sampleindicator where requestCode ='${requestCode}' `
   );
   let ID = check.recordsets[0][0];
   ID == undefined ? (IsNew = true) : (IsNew = false);
 
   IsNew
     ? await sql.query(
-        `INSERT INTO dbo.Sampleindicator(Requestcode) VALUES ('${pdfName}')`
+        `INSERT INTO dbo.Sampleindicator(Requestcode) VALUES ('${requestCode}')`
       )
     : console.log("this form has already been modified");
 
   const results = await sql.query(
-    `SELECT * FROM dbo.sampleindicator where RequestCode ='${pdfName}' `
+    `SELECT * FROM dbo.sampleindicator where RequestCode ='${requestCode}' `
   );
 
   res.json({
@@ -106,11 +120,12 @@ router.post("/connect", async (req, res) => {
 
 //Put Request
 router.put("/update/:pdfNam", async (req, res) => {
-  const pdfNam = req.params.pdfNam;
+  const requestCode = req.params.pdfNam;
   const data = await sql.query(
-    `SELECT * FROM dbo.sampleIndicator WHERE RequestCode = '${pdfNam}'`
+    `SELECT * FROM dbo.sampleIndicator WHERE RequestCode = '${requestCode}'`
   );
   let DBData = data.recordsets[0][0];
+  console.log(DBData);
 
   const body = req.body;
 
@@ -130,14 +145,12 @@ router.put("/update/:pdfNam", async (req, res) => {
   const DifferentialDiag = body.differentialDiag;
 
   await sql.query(
-    `UPDATE dbo.sampleindicator SET X_COORD = ${XCoord}, Y_COORD = ${YCoord}, Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${pdfNam}';`
+    `UPDATE dbo.sampleindicator SET X_COORD = ${XCoord}, Y_COORD = ${YCoord}, Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
   );
 
   res.json({
     status: "successful",
-    data: await sql.query(
-      `SELECT * FROM dbo.sampleIndicator where requestCode = '${pdfNam}' `
-    ),
+    data: data,
   });
 });
 
