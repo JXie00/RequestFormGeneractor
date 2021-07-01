@@ -3,6 +3,10 @@ const sql = require("mssql");
 const app = express();
 const dotenv = require("dotenv").config();
 
+const indexRouter = require("./routes/index");
+const postRouter = require("./routes/post");
+const putRouter = require("./routes/put");
+
 const config = {
   user: process.env.user,
   password: process.env.password,
@@ -29,8 +33,8 @@ app.listen(3000, () => console.log("listening at 3000"));
 app.use(express.static("public"));
 app.use(express.json({ limit: "2mb" }));
 
-const indexRouter = require("./routes/index");
-
 app.use("/", indexRouter);
+app.use("/", postRouter);
+app.use("/", putRouter);
 
 module.exports = app;
