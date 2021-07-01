@@ -1,5 +1,4 @@
 const express = require("express");
-const sql = require("mssql");
 const router = express.Router();
 const putRequestFuncs = require("../utilities/putRequestFunctions");
 router.use(express.json());
@@ -8,18 +7,19 @@ router.use(
     extended: true,
   })
 );
-const checkReferenceCodeFormat = new RegExp(
-  /^(US|AU)[0-9]{3,5}[-]\w{2}\d{3,5}$/
-);
-let isId = false;
-//Put Request
-router.put("/update/:requestCode", async (req, res) => {
+const DBdata = require("../database/retriveData");
+const checkReferenceCodeFormat = require("../constants/regex");
+
+updateTable = async (req, res) => {
+  let isId = false;
   const requestCode = req.params.requestCode;
-  checkReferenceCodeFormat.test(requestCode) ? (isId = true) : (isId = false);
+  checkReferenceCodeFormat.regex.test(requestCode)
+    ? (isId = true)
+    : (isId = false);
   if (isId) {
     try {
-      const data = await putRequestFuncs.retriveDBInfo(requestCode);
-      let DBData = data.recordsets[0][0];
+      const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
+      let DBData = retriveDBData.recordsets[0][0];
       //   let XCoord = DBData.X_COORD;
       //   let YCoord = DBData.Y_COORD;
       //   let Radious = DBData.Radious;
@@ -39,9 +39,7 @@ router.put("/update/:requestCode", async (req, res) => {
         const CytologyFindings = body.cytologyFindings;
         const DifferentialDiag = body.differentialDiag;
 
-        await sql.query(
-          `UPDATE dbo.sampleindicator SET X_COORD = ${XCoord}, Y_COORD = ${YCoord}, Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
-        );
+        const updateTable = await DBdata.updateTable;
 
         res.json({
           status: "successful",
@@ -56,6 +54,5 @@ router.put("/update/:requestCode", async (req, res) => {
   } else {
     res.status(404).send("page could not be found");
   }
-});
-
-module.exports = router;
+};
+module.exports = updateTable;

@@ -1,6 +1,5 @@
 const Validator = require("jsonschema").Validator;
 const V = new Validator();
-
 isValid = (body) => {
   let schema = {
     type: "object",
@@ -36,11 +35,4 @@ isValid = (body) => {
   return false;
 };
 
-retriveDBInfo = async (requestCode) => {
-  const retriveDBInfo = await sql.query(
-    `SELECT * FROM dbo.sampleIndicator WHERE RequestCode = '${requestCode}'`
-  );
-  return retriveDBInfo;
-};
-
-module.exports = { isValid, retriveDBInfo };
+module.exports = { isValid };

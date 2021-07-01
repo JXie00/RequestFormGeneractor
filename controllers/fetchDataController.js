@@ -1,22 +1,18 @@
-const express = require("express");
-const sql = require("mssql");
-const router = express.Router();
-const axios = require("axios");
 const getRequestFuncs = require("../utilities/getRequestFunctions");
+const DBdata = require("../database/retriveData");
+const checkReferenceCodeFormat = require("../constants/regex");
 
-const checkReferenceCodeFormat = new RegExp(
-  /^(US|AU)[0-9]{3,5}[-]\w{2}\d{3,5}$/
-);
-let isId = false;
-
-router.get("/pdf/:requestCode", async (req, res) => {
+getRequest = async (req, res) => {
+  let isId = false;
   const requestCode = req.params.requestCode;
-  checkReferenceCodeFormat.test(requestCode) ? (isId = true) : (isId = false);
+  checkReferenceCodeFormat.regex.test(requestCode)
+    ? (isId = true)
+    : (isId = false);
 
   if (isId) {
     try {
       //petinfo
-      const petInformation = await getRequestFuncs.retrivePetInfo(requestCode);
+      const petInformation = await DBdata.retrivePetInfo(requestCode);
 
       const petInfo = petInformation.recordsets[0][0];
       const age = getRequestFuncs.ageCalulation(petInfo.PatDOB);
@@ -49,9 +45,7 @@ router.get("/pdf/:requestCode", async (req, res) => {
 
       //ownerInfo
 
-      const ownerInformation = await getRequestFuncs.retriveOwnerInfo(
-        requestCode
-      );
+      const ownerInformation = await DBdata.retriveOwnerInfo(requestCode);
       const ownerInfo = ownerInformation.recordsets[0][0];
       const owner = ownerInfo.Owner;
       const species = ownerInfo.Species;
@@ -61,9 +55,7 @@ router.get("/pdf/:requestCode", async (req, res) => {
       console.log(owner, species, breed, desexed);
 
       //ClinicInfo
-      const ClinicInformation = await getRequestFuncs.retriveClinicInfo(
-        requestCode
-      );
+      const ClinicInformation = await DBdata.retriveClinicInfo(requestCode);
       const ClinicInfo = ClinicInformation.recordsets[0][0];
       const clinicDetails = ClinicInfo.Address1;
       const address = `${ClinicInfo.Address2} ,${ClinicInfo.Suburb} ,${ClinicInfo.State} ${ClinicInfo.Postcode}`;
@@ -91,6 +83,6 @@ router.get("/pdf/:requestCode", async (req, res) => {
   } else {
     res.status(404).send("page could not be found");
   }
-});
+};
 
-module.exports = router;
+module.exports = getRequest;
