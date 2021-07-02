@@ -6,4 +6,4 @@ ageCalulation = (PatDOB) => {
   return `${years} y ${months} m ${days} d`;
 };
 
-module.exports = { ageCalulation };
+module.exports = ageCalulation;
