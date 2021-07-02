@@ -29,10 +29,6 @@ isValid = (body) => {
   };
   const validData = V.validate(body, schema);
 
-  if (validData.valid) {
-    return true;
-  }
-  return false;
+  return validData.valid;
 };
-
 module.exports = { isValid };

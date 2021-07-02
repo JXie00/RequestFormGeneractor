@@ -1,15 +1,15 @@
-const getRequestFuncs = require("../utilities/getRequestFunctions");
+const getRequestFuncs = require("../utilities/ageCalculation");
 const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 
 getRequest = async (req, res) => {
-  let isId = false;
+  let isRequestCode;
   const requestCode = req.params.requestCode;
   checkReferenceCodeFormat.regex.test(requestCode)
-    ? (isId = true)
-    : (isId = false);
+    ? (isRequestCode = true)
+    : (isRequestCode = false);
 
-  if (isId) {
+  if (isRequestCode) {
     try {
       //petinfo
       const petInformation = await DBdata.retrivePetInfo(requestCode);

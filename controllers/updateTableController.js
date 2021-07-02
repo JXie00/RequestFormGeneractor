@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const putRequestFuncs = require("../utilities/putRequestFunctions");
+const putRequestFuncs = require("../utilities/schemaValidation");
 router.use(express.json());
 router.use(
   express.urlencoded({
@@ -11,15 +11,15 @@ const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 
 updateTable = async (req, res) => {
-  let isId = false;
+  let isRequestCode;
   const requestCode = req.params.requestCode;
   checkReferenceCodeFormat.regex.test(requestCode)
-    ? (isId = true)
-    : (isId = false);
-  if (isId) {
+    ? (isRequestCode = true)
+    : (isRequestCode = false);
+  if (isRequestCode) {
     try {
       const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
-      let DBData = retriveDBData.recordsets[0][0];
+      let storedData = retriveDBData.recordsets[0][0];
       //   let XCoord = DBData.X_COORD;
       //   let YCoord = DBData.Y_COORD;
       //   let Radious = DBData.Radious;
@@ -39,11 +39,20 @@ updateTable = async (req, res) => {
         const CytologyFindings = body.cytologyFindings;
         const DifferentialDiag = body.differentialDiag;
 
-        const updateTable = await DBdata.updateTable;
+        await DBdata.updateDBTable(
+          XCoord,
+          YCoord,
+          Radious,
+          ClinicalHistory,
+          Desciption,
+          CytologyFindings,
+          DifferentialDiag,
+          requestCode
+        );
 
         res.json({
           status: "successful",
-          data: DBData,
+          data: storedData,
         });
       } else {
         res.status(400).send("please enter valid data");

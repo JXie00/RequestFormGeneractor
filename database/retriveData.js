@@ -41,7 +41,7 @@ retriveCurrentPDFData = async (requestCode) => {
   return retriveDBInfo;
 };
 
-updateTable = async (
+updateDBTable = async (
   XCoord,
   YCoord,
   Radious,
@@ -51,10 +51,10 @@ updateTable = async (
   DifferentialDiag,
   requestCode
 ) => {
-  const updateTable = await sql.query(
+  const updateDBTable = await sql.query(
     `UPDATE dbo.sampleindicator SET X_COORD = ${XCoord}, Y_COORD = ${YCoord}, Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
   );
-  return updateTable;
+  return updateDBTable;
 };
 
 module.exports = {
@@ -64,5 +64,5 @@ module.exports = {
   checkPdfStatus,
   insertRequestCode,
   retriveCurrentPDFData,
-  updateTable,
+  updateDBTable,
 };
