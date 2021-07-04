@@ -1,4 +1,4 @@
-getSexFromAbbreviation = (abbreviation) => {
+const getSexFromAbbreviation = (abbreviation) => {
   switch (abbreviation) {
     case "M":
       return "Male";

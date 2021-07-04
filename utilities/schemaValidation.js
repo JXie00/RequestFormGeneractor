@@ -1,6 +1,6 @@
 const Validator = require("jsonschema").Validator;
 const V = new Validator();
-isValid = (body) => {
+const isValid = (body) => {
   let schema = {
     type: "object",
     properties: {
@@ -27,8 +27,7 @@ isValid = (body) => {
       },
     },
   };
-  const validData = V.validate(body, schema);
 
-  return validData.valid;
+  return V.validate(body, schema).valid;
 };
 module.exports = { isValid };

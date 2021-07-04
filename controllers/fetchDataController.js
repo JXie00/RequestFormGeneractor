@@ -3,14 +3,15 @@ const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 const getSexFromAbbreviation = require("../utilities/getSexFromAbbreviation");
 
-getRequest = async (req, res) => {
-  const requestCode = req.params.requestCode;
-  let isRequestCode = checkReferenceCodeFormat.regex.test(requestCode);
+const getRequest = async (req, res) => {
+  const { requestCode } = req.params;
+  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
 
   try {
     if (!isRequestCode) {
       return res.status(404).send("page could not be found");
     }
+    //petInfo
     const petInformation = await DBdata.retrivePetInfo(requestCode);
     const petInfo = petInformation.recordsets[0][0];
     const age = ageCalculation(petInfo.PatDOB);
@@ -20,38 +21,31 @@ getRequest = async (req, res) => {
 
     const ownerInformation = await DBdata.retriveOwnerInfo(requestCode);
     const ownerInfo = ownerInformation.recordsets[0][0];
-    const owner = ownerInfo.Owner;
-    const species = ownerInfo.Species;
-    const breed = ownerInfo.Breed;
-    const desexed = ownerInfo.Desexed;
-
-    console.log(owner, species, breed, desexed);
+    const { Owner, Species, Breed, Desexed } = ownerInfo;
 
     //ClinicInfo
     const ClinicInformation = await DBdata.retriveClinicInfo(requestCode);
     const ClinicInfo = ClinicInformation.recordsets[0][0];
-    const clinicDetails = ClinicInfo.Address1;
     const address = `${ClinicInfo.Address2} ,${ClinicInfo.Suburb} ,${ClinicInfo.State} ${ClinicInfo.Postcode}`;
-
-    const surname = ClinicInfo.Surname;
-    const firstName = ClinicInfo.FirstName;
+    const { Address1, Surname, FirstName } = ClinicInfo;
 
     const data = {
       Age: age,
       AnimalName: animalName,
       Sex: sex,
-      Owner: owner,
-      Species: species,
-      Breed: breed,
-      Desexed: desexed,
-      ClinicDetails: clinicDetails,
+      Owner: Owner,
+      Species: Species,
+      Breed: Breed,
+      Desexed: Desexed,
+      ClinicDetails: Address1,
       ClinicAddress: address,
-      VetSurname: surname,
-      VetFirstName: firstName,
+      VetSurname: Surname,
+      VetFirstName: FirstName,
     };
+    console.log(data);
     res.json(data);
   } catch (err) {
-    res.send(err);
+    res.staus(400).send(err);
   }
 };
 

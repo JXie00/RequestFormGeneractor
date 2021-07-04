@@ -1,4 +1,4 @@
-ageCalulation = (PatDOB) => {
+const ageCalulation = (PatDOB) => {
   let age = new Date();
   const days = Math.floor((((age - PatDOB) / 1000 / 3600 / 24) % 365) % 30);
   const months = Math.floor((((age - PatDOB) / 1000 / 3600 / 24) % 365) / 30);
