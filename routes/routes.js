@@ -14,7 +14,7 @@ const {
 
 router.get("/pets/:requestCode", retrivePetsGeneralData);
 
-router.post("/pets/:requestCode", createNewPetsRecord);
+router.post("/pets", createNewPetsRecord);
 
 router.put("/pets/:requestCode", updatePetsRecord);
 

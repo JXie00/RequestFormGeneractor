@@ -3,7 +3,7 @@ const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 const getSexFromAbbreviation = require("../utilities/getSexFromAbbreviation");
 
-const getRequest = async (req, res) => {
+const retrivePetsGeneralData = async (req, res) => {
   const { requestCode } = req.params;
   let isRequestCode = checkReferenceCodeFormat.test(requestCode);
 
@@ -45,8 +45,8 @@ const getRequest = async (req, res) => {
     console.log(data);
     res.json(data);
   } catch (err) {
-    res.staus(400).send(err);
+    res.status(400).send(err);
   }
 };
 
-module.exports = getRequest;
+module.exports = retrivePetsGeneralData;
