@@ -1,41 +1,15 @@
-const express = require('express');
-const sql = require('mssql');
-
+const express = require("express");
 const app = express();
+const connectDB = require("./database/connection");
 
-let config = {
-    user: 'sa',
-    password: '0vODz]84',
-     server: "ivp-srv",
-    database: 'Practice',
-    options: {
-      cryptoCredentialsDetails: {
-      minVersion: 'TLSv1'
-      },
-      trustServerCertificate: true
-      }
+const routes = require("./routes/routes");
 
-  };
+connectDB();
 
-  (async () => {
-    try{
-      await sql.connect(config);
-      // const result = await sql.query `select surname from dbo.Addresses where ID = 1059`;
-      // console.log(result);
-      console.log("connecting succefully")
-    }catch(err){
-      console.log(err);
-    }
-  })();
+app.listen(3000, () => console.log("listening at 3000"));
+app.use(express.static("public"));
+app.use(express.json({ limit: "2mb" }));
 
-
-app.listen(3000, () => console.log('listening at 3000'));
-app.use(express.static('public'));
-app.use(express.json({ limit: '2mb' }));
-
-const indexRouter = require('./routes/index');
-
-app.use("/",indexRouter);
+app.use("/", routes);
 
 module.exports = app;
-
