@@ -6,16 +6,16 @@ router.use(
     extended: true,
   })
 );
-const retriveGeneralData = require("../controllers/fetchDataController");
+const retrivePetsGeneralData = require("../controllers/fetchDataController");
 const {
-  createNewRecord,
-  updateTable,
+  createNewPetsRecord,
+  updatePetsRecord,
 } = require("../controllers/newRecordController");
 
-router.get("/:requestCode", retriveGeneralData);
+router.get("/pets/:requestCode", retrivePetsGeneralData);
 
-router.post("/connect/:requestCode", createNewRecord);
+router.post("/pets/:requestCode", createNewPetsRecord);
 
-router.put("/update/:requestCode", updateTable);
+router.put("/pets/:requestCode", updatePetsRecord);
 
 module.exports = router;

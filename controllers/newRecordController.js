@@ -2,7 +2,7 @@ const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 const schemaValidation = require("../utilities/schemaValidation");
 
-const createNewRecord = async (req, res) => {
+const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
   let isRequestCode = checkReferenceCodeFormat.test(requestCode);
   try {
@@ -17,14 +17,14 @@ const createNewRecord = async (req, res) => {
     }
     await DBdata.insertRequestCode(requestCode);
     res.json({
-      confirmation: "succed",
+      confirmation: "succeed",
     });
   } catch (err) {
     res.status(400).send(err);
   }
 };
 
-const updateTable = async (req, res) => {
+const updatePetsRecord = async (req, res) => {
   const { requestCode } = req.params;
   let isRequestCode = checkReferenceCodeFormat.test(requestCode);
 
@@ -81,4 +81,4 @@ const updateTable = async (req, res) => {
   }
 };
 
-module.exports = { createNewRecord, updateTable };
+module.exports = { createNewPetsRecord, updatePetsRecord };
