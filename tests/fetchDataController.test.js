@@ -7,7 +7,6 @@ jest.mock("../database/retriveData");
 
 afterEach(() => {
   res = mockResponse();
-  // req = mockRequest();
   jest.fn().mockClear();
 });
 
@@ -50,7 +49,7 @@ let clinic = {
 };
 // expected response
 let expectedResponse = {
-  Age: "44 y 2 m 7 d",
+  Age: "44 y 2 m 11 d",
   AnimalName: "Bessie",
   Sex: "Female",
   Owner: "s Bell",
@@ -71,16 +70,13 @@ test("return 200 - properly retrive data from DB", async () => {
 
   // act
   await retrivePetsGeneralData(req, res);
-
   // assert
   expect(res.json).toHaveBeenCalledWith(expectedResponse);
 });
 
 test(" return 404 -invalid requestCode", async () => {
   let req = { params: { requestCode: "2dsdwdsd" } };
-
   await retrivePetsGeneralData(req, res);
-
   expect(res.status).toHaveBeenCalledWith(404);
 });
 

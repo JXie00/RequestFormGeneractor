@@ -50,6 +50,18 @@ test("return 404 - invald requestCode", async () => {
 });
 
 test("return 400 - entered invalid Data", async () => {
+  let req = {
+    params: { requestCode: "US10674-DR28454" },
+    body: {
+      XCoord: 2,
+      YCoord: 3,
+      Radious: "4",
+      clinicalHistory: "fefsd",
+      description: "fefsdf",
+      cytologyFindings: "23dsd",
+      differentialDiag: "wdd",
+    },
+  };
   await updatePetsRecord(req, res);
   expect(res.status).toHaveBeenCalledWith(400);
 });
