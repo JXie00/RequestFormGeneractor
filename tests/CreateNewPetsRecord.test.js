@@ -27,7 +27,7 @@ test("return 404 - invalid requestcode", async () => {
   expect(res.status).toHaveBeenCalledWith(404);
 });
 
-test("return 400 - ID Defined", async () => {
+test("return 400 - there is an ID in DB", async () => {
   let ID = {
     recordsets: [
       [

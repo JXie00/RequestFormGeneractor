@@ -18,10 +18,10 @@ let validData = {
     XCoord: 2,
     YCoord: 3,
     Radious: 4,
-    clinicalHistory: "fefsd",
-    description: "fefsdf",
-    cytologyFindings: "23dsd",
-    differentialDiag: "wdd",
+    clinicalHistory: "No history",
+    description: "this pet is healthy",
+    cytologyFindings: "No findings",
+    differentialDiag: "nope",
   },
 };
 
@@ -29,10 +29,10 @@ let expectedResponse = {
   XCoord: 2,
   YCoord: 3,
   Radious: 4,
-  clinicalHistory: "fefsd",
-  description: "fefsdf",
-  cytologyFindings: "23dsd",
-  differentialDiag: "wdd",
+  clinicalHistory: "No history",
+  description: "this pet is healthy",
+  cytologyFindings: "No findings",
+  differentialDiag: "nope",
 };
 
 test("return 200 - properly update record", async () => {
@@ -56,10 +56,10 @@ test("return 400 - entered invalid Data", async () => {
       XCoord: 2,
       YCoord: 3,
       Radious: "4",
-      clinicalHistory: "fefsd",
-      description: "fefsdf",
-      cytologyFindings: "23dsd",
-      differentialDiag: "wdd",
+      clinicalHistory: "No history",
+      description: "this pet is healthy",
+      cytologyFindings: "No findings",
+      differentialDiag: "nope",
     },
   };
   await updatePetsRecord(req, res);

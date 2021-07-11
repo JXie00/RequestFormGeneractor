@@ -23,7 +23,7 @@ let owner = {
   recordsets: [
     [
       {
-        Owner: "s Bell",
+        Owner: "test Owner",
         Species: "Feline",
         Breed: "European Shorthair",
         Desexed: "Yes",
@@ -36,12 +36,12 @@ let clinic = {
   recordsets: [
     [
       {
-        Address2: "15-20 Main Street",
-        Suburb: "RIPLEY",
+        Address2: "15-20 test Street",
+        Suburb: "infinity",
         State: "QLD",
-        Postcode: "4306",
-        Address1: "Ripley Veterinary Hospital",
-        Surname: "Hemming",
+        Postcode: "4000",
+        Address1: "mock test Hospital",
+        Surname: "tests",
         FirstName: "Andrew",
       },
     ],
@@ -52,13 +52,13 @@ let expectedResponse = {
   Age: "44 y 2 m 11 d",
   AnimalName: "Bessie",
   Sex: "Female",
-  Owner: "s Bell",
+  Owner: "test Owner",
   Species: "Feline",
   Breed: "European Shorthair",
   Desexed: "Yes",
-  ClinicDetails: "Ripley Veterinary Hospital",
-  ClinicAddress: "15-20 Main Street ,RIPLEY ,QLD 4306",
-  VetSurname: "Hemming",
+  ClinicDetails: "mock test Hospital",
+  ClinicAddress: "15-20 test Street ,infinity ,QLD 4000",
+  VetSurname: "tests",
   VetFirstName: "Andrew",
 };
 
