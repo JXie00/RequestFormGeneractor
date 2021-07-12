@@ -2,12 +2,11 @@ const { updatePetsRecord } = require("../controllers/newRecordController");
 const DBdata = require("../database/retriveData");
 const { mockResponse, mockRequest } = require("./mock");
 
-let req, res;
+let res = mockResponse();
 jest.mock("../database/retriveData");
 
 afterEach(() => {
   res = mockResponse();
-  req = mockRequest();
   jest.fn().mockClear();
 });
 
@@ -26,21 +25,39 @@ let validData = {
 };
 
 let expectedResponse = {
+  recordsets: [
+    [
+      {
+        ID: 22,
+        XCoord: 2,
+        YCoord: 3,
+        Radious: 4,
+        ClinicalHisotry: "No history",
+        Desciption: "this pet is healthy",
+        CytologyFidngs: "No findings",
+        DifferntialDiagonlse: "nope",
+        RequestCode: "US10674-DR28454",
+      },
+    ],
+  ],
+};
+
+let expectdJSON = {
+  ID: 22,
   XCoord: 2,
   YCoord: 3,
   Radious: 4,
-  clinicalHistory: "No history",
-  description: "this pet is healthy",
-  cytologyFindings: "No findings",
-  differentialDiag: "nope",
+  ClinicalHisotry: "No history",
+  Desciption: "this pet is healthy",
+  CytologyFidngs: "No findings",
+  DifferntialDiagonlse: "nope",
+  RequestCode: "US10674-DR28454",
 };
-
 test("return 200 - properly update record", async () => {
-  req = validData;
-  DBdata.updateDBTable = jest.fn().mockReturnValue(200);
+  let req = validData;
   DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(expectedResponse);
   await updatePetsRecord(req, res);
-  expect(res.json).toHaveBeenCalledWith(expectedResponse);
+  expect(res.json).toHaveBeenCalledWith(expectdJSON);
 });
 
 test("return 404 - invald requestCode", async () => {
@@ -62,6 +79,24 @@ test("return 400 - entered invalid Data", async () => {
       differentialDiag: "nope",
     },
   };
+  await updatePetsRecord(req, res);
+  expect(res.status).toHaveBeenCalledWith(400);
+});
+
+test("return 400 - undefined Data missing :missing recordsets", async () => {
+  let req = validData;
+  let undefinedData = {
+    ID: 22,
+    Xrd: 2,
+    YCoord: 3,
+    Radious: 4,
+    ClinicalHisotry: "No history",
+    Desciption: "this pet is healthy",
+    CytologyFidngs: "No findings",
+    DifferntialDiagonlse: "nope",
+    RequestCode: "US10674-DR28454",
+  };
+  DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(undefinedData);
   await updatePetsRecord(req, res);
   expect(res.status).toHaveBeenCalledWith(400);
 });
