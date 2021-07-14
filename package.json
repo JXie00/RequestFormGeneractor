@@ -4,7 +4,7 @@
   "description": "Specimen sample indicator",
   "main": "index.js",
   "scripts": {
-    "test": "test, run, data"
+    "test": "jest --watchAll --coverage"
   },
   "author": "Jet Xie",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "mssql": "^7.1.3"
   },
   "devDependencies": {
+    "jest": "^27.0.6",
     "nodemon": "^2.0.9"
   }
 }

@@ -72,11 +72,10 @@ const updatePetsRecord = async (req, res) => {
     //   DifferntialDiagonlse,
     // } = DBdata;
 
-    res.json({
-      status: "successful",
-      data: storedData,
-    });
+    // res.status(200).send("succeed");
+    res.json(storedData);
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };
