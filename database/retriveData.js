@@ -52,7 +52,7 @@ const updateDBTable = async (
   requestCode
 ) => {
   const updateDBTable = await sql.query(
-    `UPDATE dbo.sampleindicator SET X_COORD = ${XCoord}, Y_COORD = ${YCoord}, Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
+    `UPDATE dbo.sampleindicator SET X_COORD = '${XCoord}', Y_COORD = '${YCoord}', Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
   );
   return updateDBTable;
 };

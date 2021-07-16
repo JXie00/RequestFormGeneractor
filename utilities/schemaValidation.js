@@ -5,10 +5,10 @@ const isValid = (body) => {
     type: "object",
     properties: {
       XCoord: {
-        type: "number",
+        type: "string",
       },
       YCoord: {
-        type: "number",
+        type: "string",
       },
       Radious: {
         type: "number",
