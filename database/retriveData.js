@@ -51,10 +51,18 @@ const updateDBTable = async (
   DifferentialDiag,
   requestCode
 ) => {
-  const updateDBTable = await sql.query(
-    `UPDATE dbo.sampleindicator SET X_COORD = '${XCoord}', Y_COORD = '${YCoord}', Radious = ${Radious}, ClinicalHisotry = '${ClinicalHistory}',  Desciption = '${Desciption}', CytologyFidngs = '${CytologyFindings}',  DifferntialDiagonlse = '${DifferentialDiag}'   WHERE RequestCode = '${requestCode}';`
-  );
-  return updateDBTable;
+  const request = new sql.Request();
+  const statment =
+    "UPDATE dbo.sampleindicator SET X_COORD = @XCoord, Y_COORD = @YCoord, Radious = @Radious, ClinicalHisotry = @ClinicalHistory,  Desciption = @Desciption, CytologyFidngs = @CytologyFindings,  DifferntialDiagonlse = @DifferentialDiag   WHERE RequestCode = @requestCode;";
+  request.input("XCoord", sql.VarChar, XCoord);
+  request.input("YCoord", sql.VarChar, YCoord);
+  request.input("Radious", sql.Int, Radious);
+  request.input("ClinicalHistory", sql.VarChar, ClinicalHistory);
+  request.input("Desciption", sql.VarChar, Desciption);
+  request.input("CytologyFindings", sql.VarChar, CytologyFindings);
+  request.input("DifferentialDiag", sql.VarChar, DifferentialDiag);
+  request.input("requestCode", sql.VarChar, requestCode);
+  await request.query(statment);
 };
 
 module.exports = {
