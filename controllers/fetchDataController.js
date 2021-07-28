@@ -45,6 +45,7 @@ const retrivePetsGeneralData = async (req, res) => {
       VetSurname: Surname,
       VetFirstName: FirstName,
     };
+
     console.log(data);
     res.json(data);
   } catch (err) {
@@ -52,4 +53,4 @@ const retrivePetsGeneralData = async (req, res) => {
   }
 };
 
-module.exports = retrivePetsGeneralData;
+module.exports = { retrivePetsGeneralData };

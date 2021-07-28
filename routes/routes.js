@@ -6,7 +6,9 @@ router.use(
     extended: true,
   })
 );
-const retrivePetsGeneralData = require("../controllers/fetchDataController");
+const {
+  retrivePetsGeneralData,
+} = require("../controllers/fetchDataController");
 const {
   createNewPetsRecord,
   updatePetsRecord,

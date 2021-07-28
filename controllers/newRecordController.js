@@ -1,6 +1,7 @@
 const DBdata = require("../database/retriveData");
 const checkReferenceCodeFormat = require("../constants/regex");
 const schemaValidation = require("../utilities/schemaValidation");
+const fillPDFForm = require("./renderPDF");
 
 const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
@@ -62,6 +63,16 @@ const updatePetsRecord = async (req, res) => {
 
     const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
     let storedData = retriveDBData.recordsets[0][0];
+
+    await fillPDFForm(
+      XCoord,
+      YCoord,
+      Radious,
+      clinicalHistory,
+      description,
+      cytologyFindings,
+      differentialDiag
+    );
     // const {
     //   X_COORD,
     //   Y_COORD,
