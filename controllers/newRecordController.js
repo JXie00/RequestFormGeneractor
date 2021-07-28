@@ -64,7 +64,15 @@ const updatePetsRecord = async (req, res) => {
     const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
     let storedData = retriveDBData.recordsets[0][0];
 
-    await fillPDFForm();
+    await fillPDFForm(
+      XCoord,
+      YCoord,
+      Radious,
+      clinicalHistory,
+      description,
+      cytologyFindings,
+      differentialDiag
+    );
     // const {
     //   X_COORD,
     //   Y_COORD,
