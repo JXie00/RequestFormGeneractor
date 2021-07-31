@@ -1,4 +1,4 @@
-const { grayscale, rgb } = require("pdf-lib");
+import { grayscale, rgb } from "pdf-lib";
 const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
   if (xCoord === "") return;
 
@@ -36,4 +36,4 @@ const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
     });
   }
 };
-module.exports = onPDFLcationCalculation;
+export default onPDFLcationCalculation;

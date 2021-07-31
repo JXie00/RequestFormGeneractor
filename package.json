@@ -1,6 +1,7 @@
 {
   "name": "samlpleindicator",
   "version": "1.0.0",
+  "type": "module",
   "description": "Specimen sample indicator",
   "main": "index.js",
   "scripts": {
@@ -17,6 +18,7 @@
     "pdf-lib": "^1.16.0"
   },
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.9"
   }

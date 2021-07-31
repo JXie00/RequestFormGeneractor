@@ -1,7 +1,7 @@
-const ageCalculation = require("../utilities/ageCalculation");
-const DBdata = require("../database/retriveData");
-const checkReferenceCodeFormat = require("../constants/regex");
-const getSexFromAbbreviation = require("../utilities/getSexFromAbbreviation");
+import ageCalculation from "../utilities/ageCalculation.js";
+import DBdata from "../database/retriveData.js";
+import checkReferenceCodeFormat from "../constants/regex.js";
+import getSexFromAbbreviation from "../utilities/getSexFromAbbreviation.js";
 
 const retrivePetsGeneralData = async (req, res) => {
   const { requestCode } = req.params;
@@ -52,5 +52,4 @@ const retrivePetsGeneralData = async (req, res) => {
     res.status(400).send(err);
   }
 };
-
-module.exports = { retrivePetsGeneralData };
+export default retrivePetsGeneralData;

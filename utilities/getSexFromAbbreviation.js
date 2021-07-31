@@ -17,4 +17,4 @@ const getSexFromAbbreviation = (abbreviation) => {
   }
 };
 
-module.exports = getSexFromAbbreviation;
+export default getSexFromAbbreviation;

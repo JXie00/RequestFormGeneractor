@@ -1,4 +1,4 @@
-const sql = require("mssql");
+import sql from "mssql";
 
 const retrivePetInfo = async (requestCode) => {
   const petInformation = await sql.query(
@@ -65,7 +65,7 @@ const updateDBTable = async (
   await request.query(statment);
 };
 
-module.exports = {
+export default {
   retrivePetInfo,
   retriveClinicInfo,
   retriveOwnerInfo,

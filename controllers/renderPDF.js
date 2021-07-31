@@ -1,7 +1,7 @@
-const { PDFDocument } = require("pdf-lib");
-const fs = require("fs");
+import { PDFDocument } from "pdf-lib";
+import fs from "fs";
 
-const onPDFLcationCalculation = require("../utilities/onPDFLocationCalculation");
+import onPDFLcationCalculation from "../utilities/onPDFLocationCalculation.js";
 
 const fillPDFForm = async (
   xCoord,
@@ -64,6 +64,6 @@ const fillPDFForm = async (
 
   fs.writeFileSync("./filled.pdf", pdfByte);
 };
-fillPDFForm("135, 362, 111, 373", "36, 48, 257, 260", 5);
+fillPDFForm("135, 362, 111, ", "36, 48, 257, ", 5);
 
-module.exports = fillPDFForm;
+export default fillPDFForm;

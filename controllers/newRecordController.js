@@ -1,9 +1,9 @@
-const DBdata = require("../database/retriveData");
-const checkReferenceCodeFormat = require("../constants/regex");
-const schemaValidation = require("../utilities/schemaValidation");
-const fillPDFForm = require("./renderPDF");
+import DBdata from "../database/retriveData.js";
+import checkReferenceCodeFormat from "../constants/regex.js";
+import schemaValidation from "../utilities/schemaValidation.js";
+// import fillPDFForm from "./renderPDF";
 
-const createNewPetsRecord = async (req, res) => {
+export const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
   let isRequestCode = checkReferenceCodeFormat.test(requestCode);
   try {
@@ -25,7 +25,7 @@ const createNewPetsRecord = async (req, res) => {
   }
 };
 
-const updatePetsRecord = async (req, res) => {
+export const updatePetsRecord = async (req, res) => {
   const { requestCode } = req.params;
   let isRequestCode = checkReferenceCodeFormat.test(requestCode);
 
@@ -90,5 +90,3 @@ const updatePetsRecord = async (req, res) => {
     res.status(400).send(err);
   }
 };
-
-module.exports = { createNewPetsRecord, updatePetsRecord };
