@@ -1,40 +1,23 @@
 const { PDFDocument, grayscale, rgb } = require("pdf-lib");
 const fs = require("fs");
 
+const onPDFLcationCalculation = require("../utilities/onPDFLocationCalculation");
+
 const fillPDFForm = async (
   xCoord,
   yCoord,
-  radious,
-  clinicalHistory,
-  description,
-  cytologyFindings,
-  differentialDiag
+  radious
+  // clinicalHistory,
+  // description,
+  // cytologyFindings,
+  // differentialDiag
 ) => {
   const pdfDoc = await PDFDocument.load(
     fs.readFileSync("./constants/PDFen.pdf")
   );
   const page = pdfDoc.getPages()[0];
-  const { width, height } = page.getSize();
-  console.log(`${width} : ${height}`);
 
-  xCoord = xCoord.split(",");
-  yCoord = yCoord.split(",");
-
-  console.log(xCoord, yCoord);
-
-  for (let i = 0; i < xCoord.length; i++) {
-    console.log(i);
-    page.drawCircle({
-      x: parseInt(xCoord[i]),
-      y: parseInt(yCoord[i]),
-      size: radious,
-      borderColor: grayscale(0.5),
-      color: rgb(1, 0, 0),
-      opacity: 0.5,
-      borderOpacity: 0.75,
-    });
-  }
-
+  await onPDFLcationCalculation(xCoord, yCoord, radious, page);
   // const fields = form.getFields();
   // fields.forEach((field) => {
   //   const type = field.constructor.name;
@@ -72,14 +55,15 @@ const fillPDFForm = async (
   // surnameField.setText(data.VetSurname);
   // firstnameField.setText(data.VetFirstName);
 
-  historyField.setText(clinicalHistory);
-  descriptionField.setText(description);
-  cytologyFindingsfield.setText(cytologyFindings);
-  differentialDiagfield.setText(differentialDiag);
+  // historyField.setText(clinicalHistory);
+  // descriptionField.setText(description);
+  // cytologyFindingsfield.setText(cytologyFindings);
+  // differentialDiagfield.setText(differentialDiag);
 
   const pdfByte = await pdfDoc.save({ updateFieldAppearances: true });
 
   fs.writeFileSync("./filled.pdf", pdfByte);
 };
+fillPDFForm("135, 362, 111, 373", "36, 48, 257, 260", 5);
 
 module.exports = fillPDFForm;
