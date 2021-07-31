@@ -1,4 +1,4 @@
-const { PDFDocument, grayscale, rgb } = require("pdf-lib");
+const { PDFDocument } = require("pdf-lib");
 const fs = require("fs");
 
 const onPDFLcationCalculation = require("../utilities/onPDFLocationCalculation");

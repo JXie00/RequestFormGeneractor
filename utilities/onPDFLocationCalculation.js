@@ -4,13 +4,21 @@ const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
 
   xCoord = xCoord.split(",");
   yCoord = yCoord.split(",");
+  const pdfXCoordStartPostion = 295;
+  const pdfYCoordStartPostion = 650;
+  const pdfXCoordRatio = 1.68;
+  const pdfYCoordRatio = 1.73;
 
   xCoord = xCoord.map((value) => {
-    return (295 + parseInt(value) / 1.68).toFixed(2);
+    return (pdfXCoordStartPostion + parseInt(value) / pdfXCoordRatio).toFixed(
+      2
+    );
   });
 
   yCoord = yCoord.map((value) => {
-    return (650 - parseInt(value) / 1.73).toFixed(2);
+    return (pdfYCoordStartPostion - parseInt(value) / pdfYCoordRatio).toFixed(
+      2
+    );
   });
 
   console.log(xCoord, yCoord);
