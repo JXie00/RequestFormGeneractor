@@ -1,16 +1,15 @@
 import { PDFDocument } from "pdf-lib";
 import fs from "fs";
-
 import onPDFLcationCalculation from "../utilities/onPDFLocationCalculation.js";
-
+import axios from "axios";
 const fillPDFForm = async (
   xCoord,
   yCoord,
-  radious
-  // clinicalHistory,
-  // description,
-  // cytologyFindings,
-  // differentialDiag
+  radious,
+  clinicalHistory,
+  description,
+  cytologyFindings,
+  differentialDiag
 ) => {
   const pdfDoc = await PDFDocument.load(
     fs.readFileSync("./constants/PDFen.pdf")
@@ -24,7 +23,6 @@ const fillPDFForm = async (
   //   const name = field.getName();
   //   console.log(`${type}: ${name}`);
   // });
-
   const form = pdfDoc.getForm();
   const ownerNameField = form.getTextField("OwnerName");
   const speciesField = form.getTextField("Species");
@@ -43,27 +41,29 @@ const fillPDFForm = async (
   const cytologyFindingsfield = form.getTextField("untitled34");
   const differentialDiagfield = form.getTextField("untitled35");
 
-  // ageField.setText(data.Age);
-  // animalNameField.setText(data.AnimalName);
-  // genderField.setText(data.Sex);
-  // ownerNameField.setText(data.Owner);
-  // speciesField.setText(data.Species);
-  // breedField.setText(data.Breed);
-  // desexedField.setText(data.Desexed);
-  // ClinicNameFiled.setText(data.ClinicDetails);
-  // address1Field.setText(data.ClinicAddress);
-  // surnameField.setText(data.VetSurname);
-  // firstnameField.setText(data.VetFirstName);
+  //call get request to fill in data retrived from DB
+  await axios.get(`http://localhost:3000/pets/AU10338-DR10485`).then((res) => {
+    const { data } = res;
+    ageField.setText(data.Age);
+    animalNameField.setText(data.AnimalName);
+    genderField.setText(data.Sex);
+    ownerNameField.setText(data.Owner);
+    speciesField.setText(data.Species);
+    breedField.setText(data.Breed);
+    desexedField.setText(data.Desexed);
+    ClinicNameFiled.setText(data.ClinicDetails);
+    address1Field.setText(data.ClinicAddress);
+    surnameField.setText(data.VetSurname);
+    firstnameField.setText(data.VetFirstName);
+  });
 
-  // historyField.setText(clinicalHistory);
-  // descriptionField.setText(description);
-  // cytologyFindingsfield.setText(cytologyFindings);
-  // differentialDiagfield.setText(differentialDiag);
+  historyField.setText(clinicalHistory);
+  descriptionField.setText(description);
+  cytologyFindingsfield.setText(cytologyFindings);
+  differentialDiagfield.setText(differentialDiag);
 
   const pdfByte = await pdfDoc.save({ updateFieldAppearances: true });
-
   fs.writeFileSync("./filled.pdf", pdfByte);
 };
-fillPDFForm("135, 362, 111, ", "36, 48, 257, ", 5);
 
 export default fillPDFForm;
