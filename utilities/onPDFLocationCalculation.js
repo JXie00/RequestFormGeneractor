@@ -1,4 +1,4 @@
-import { grayscale, rgb } from "pdf-lib";
+import { rgb } from "pdf-lib";
 const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
   if (xCoord === "") return;
 
@@ -8,31 +8,32 @@ const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
   const pdfYCoordStartPostion = 650;
   const pdfXCoordRatio = 1.68;
   const pdfYCoordRatio = 1.73;
+  const xCoordOnScreenStartPosition = 320;
+  const yCoordOnScreenStartPosition = 72;
 
   xCoord = xCoord.map((value) => {
-    return (pdfXCoordStartPostion + parseInt(value) / pdfXCoordRatio).toFixed(
-      2
-    );
+    return (
+      pdfXCoordStartPostion +
+      (parseInt(value) - xCoordOnScreenStartPosition) / pdfXCoordRatio
+    ).toFixed(2);
   });
 
   yCoord = yCoord.map((value) => {
-    return (pdfYCoordStartPostion - parseInt(value) / pdfYCoordRatio).toFixed(
-      2
-    );
+    return (
+      pdfYCoordStartPostion -
+      (parseInt(value) - yCoordOnScreenStartPosition) / pdfYCoordRatio
+    ).toFixed(2);
   });
 
-  console.log(xCoord, yCoord);
-
   for (let i = 0; i < xCoord.length; i++) {
-    console.log(i);
     page.drawCircle({
       x: parseInt(xCoord[i]),
       y: parseInt(yCoord[i]),
       size: radious,
-      borderColor: grayscale(0.5),
-      color: rgb(1, 0, 0),
-      opacity: 0.5,
-      borderOpacity: 0.75,
+      borderColor: rgb(1, 0, 0),
+      borderWidth: 2,
+      opacity: 1,
+      borderOpacity: 1,
     });
   }
 };

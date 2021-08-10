@@ -2,7 +2,6 @@ import DBdata from "../database/retriveData.js";
 import checkReferenceCodeFormat from "../constants/regex.js";
 import schemaValidation from "../utilities/schemaValidation.js";
 import fillPDFForm from "./fillPDF.js";
-import fs from "fs";
 
 export const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
@@ -72,9 +71,10 @@ export const updatePetsRecord = async (req, res) => {
       differentialDiag
     );
 
-    const pdf = fs.readFileSync("./filled.pdf");
-    res.contentType("application/pdf");
-    res.send(pdf);
+    // res.status(200).send("succeed");
+    res.set("Content-Type", "application/pdf");
+    res.type("application/pdf");
+    res.download("./filled.pdf");
   } catch (err) {
     console.log(err);
     res.status(400).send(err);

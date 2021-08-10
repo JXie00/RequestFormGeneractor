@@ -2,6 +2,8 @@ import { PDFDocument } from "pdf-lib";
 import fs from "fs";
 import onPDFLcationCalculation from "../utilities/onPDFLocationCalculation.js";
 import axios from "axios";
+import { getDate } from "../utilities/getDate.js";
+
 const fillPDFForm = async (
   xCoord,
   yCoord,
@@ -15,15 +17,15 @@ const fillPDFForm = async (
     fs.readFileSync("./constants/PDFen.pdf")
   );
   const page = pdfDoc.getPages()[0];
-
   await onPDFLcationCalculation(xCoord, yCoord, radious, page);
+  const form = pdfDoc.getForm();
   // const fields = form.getFields();
   // fields.forEach((field) => {
   //   const type = field.constructor.name;
   //   const name = field.getName();
   //   console.log(`${type}: ${name}`);
   // });
-  const form = pdfDoc.getForm();
+
   const ownerNameField = form.getTextField("OwnerName");
   const speciesField = form.getTextField("Species");
   const breedField = form.getTextField("Breed");
@@ -40,27 +42,30 @@ const fillPDFForm = async (
   const ageField = form.getTextField("Age");
   const cytologyFindingsfield = form.getTextField("untitled34");
   const differentialDiagfield = form.getTextField("untitled35");
-
+  const dateField = form.getTextField("untitled26");
   //call get request to fill in data retrived from DB
-  await axios.get(`http://localhost:3000/pets/AU10338-DR10485`).then((res) => {
-    const { data } = res;
-    ageField.setText(data.Age);
-    animalNameField.setText(data.AnimalName);
-    genderField.setText(data.Sex);
-    ownerNameField.setText(data.Owner);
-    speciesField.setText(data.Species);
-    breedField.setText(data.Breed);
-    desexedField.setText(data.Desexed);
-    ClinicNameFiled.setText(data.ClinicDetails);
-    address1Field.setText(data.ClinicAddress);
-    surnameField.setText(data.VetSurname);
-    firstnameField.setText(data.VetFirstName);
-  });
+  await axios
+    .get(`http://localhost:${process.env.port}/pets/AU10338-DR10485`)
+    .then((res) => {
+      const { data } = res;
+      ageField.setText(data.Age);
+      animalNameField.setText(data.AnimalName);
+      genderField.setText(data.Sex);
+      ownerNameField.setText(data.Owner);
+      speciesField.setText(data.Species);
+      breedField.setText(data.Breed);
+      desexedField.setText(data.Desexed);
+      ClinicNameFiled.setText(data.ClinicDetails);
+      address1Field.setText(data.ClinicAddress);
+      surnameField.setText(data.VetSurname);
+      firstnameField.setText(data.VetFirstName);
+    });
 
   historyField.setText(clinicalHistory);
   descriptionField.setText(description);
   cytologyFindingsfield.setText(cytologyFindings);
   differentialDiagfield.setText(differentialDiag);
+  dateField.setText(getDate());
 
   const pdfByte = await pdfDoc.save({ updateFieldAppearances: true });
   fs.writeFileSync("./filled.pdf", pdfByte);
