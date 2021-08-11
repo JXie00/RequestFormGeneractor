@@ -4,25 +4,21 @@ const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
 
   xCoord = xCoord.split(",");
   yCoord = yCoord.split(",");
-  const pdfXCoordStartPostion = 295;
-  const pdfYCoordStartPostion = 650;
-  const pdfXCoordRatio = 1.68;
-  const pdfYCoordRatio = 1.73;
-  const xCoordOnScreenStartPosition = 320;
-  const yCoordOnScreenStartPosition = 72;
+  const pdfXCoordStartPostion = 300;
+  const pdfYCoordStartPostion = 643;
+  const pdfXCoordRatio = 1.58;
+  const pdfYCoordRatio = 1.7;
 
   xCoord = xCoord.map((value) => {
-    return (
-      pdfXCoordStartPostion +
-      (parseInt(value) - xCoordOnScreenStartPosition) / pdfXCoordRatio
-    ).toFixed(2);
+    return (pdfXCoordStartPostion + parseInt(value) / pdfXCoordRatio).toFixed(
+      2
+    );
   });
 
   yCoord = yCoord.map((value) => {
-    return (
-      pdfYCoordStartPostion -
-      (parseInt(value) - yCoordOnScreenStartPosition) / pdfYCoordRatio
-    ).toFixed(2);
+    return (pdfYCoordStartPostion - parseInt(value) / pdfYCoordRatio).toFixed(
+      2
+    );
   });
 
   for (let i = 0; i < xCoord.length; i++) {
