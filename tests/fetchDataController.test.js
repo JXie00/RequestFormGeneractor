@@ -1,6 +1,6 @@
-const retrivePetsGeneralData = require("../controllers/fetchDataController");
-const DBdata = require("../database/retriveData");
-const { mockResponse, mockRequest } = require("./mock");
+import retrivePetsGeneralData from "../controllers/fetchDataController.js";
+import DBdata from "../database/retriveData.js";
+import { mockResponse, mockRequest } from "./mock.js";
 
 let res = mockResponse();
 jest.mock("../database/retriveData");

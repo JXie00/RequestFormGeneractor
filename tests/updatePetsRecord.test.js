@@ -1,6 +1,6 @@
-const { updatePetsRecord } = require("../controllers/newRecordController");
-const DBdata = require("../database/retriveData");
-const { mockResponse, mockRequest } = require("./mock");
+import { updatePetsRecord } from "../controllers/newRecordController.js";
+import DBdata from "../database/retriveData.js";
+import { mockResponse, mockRequest } from "./mock.js";
 
 let res = mockResponse();
 jest.mock("../database/retriveData");
