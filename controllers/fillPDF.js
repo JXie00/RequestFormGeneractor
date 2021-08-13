@@ -11,7 +11,8 @@ const fillPDFForm = async (
   clinicalHistory,
   description,
   cytologyFindings,
-  differentialDiag
+  differentialDiag,
+  requestCode
 ) => {
   const pdfDoc = await PDFDocument.load(
     fs.readFileSync("./constants/PDFen.pdf")
@@ -44,22 +45,21 @@ const fillPDFForm = async (
   const differentialDiagfield = form.getTextField("untitled35");
   const dateField = form.getTextField("untitled26");
   //call get request to fill in data retrived from DB
-  await axios
-    .get(`http://localhost:${process.env.port}/pets/AU10338-DR10485`)
-    .then((res) => {
-      const { data } = res;
-      ageField.setText(data.Age);
-      animalNameField.setText(data.AnimalName);
-      genderField.setText(data.Sex);
-      ownerNameField.setText(data.Owner);
-      speciesField.setText(data.Species);
-      breedField.setText(data.Breed);
-      desexedField.setText(data.Desexed);
-      ClinicNameFiled.setText(data.ClinicDetails);
-      address1Field.setText(data.ClinicAddress);
-      surnameField.setText(data.VetSurname);
-      firstnameField.setText(data.VetFirstName);
-    });
+  const res = await axios.get(
+    `http://localhost:${process.env.port}/pets/${requestCode}`
+  );
+  const { data } = res;
+  ageField.setText(data.Age);
+  animalNameField.setText(data.AnimalName);
+  genderField.setText(data.Sex);
+  ownerNameField.setText(data.Owner);
+  speciesField.setText(data.Species);
+  breedField.setText(data.Breed);
+  desexedField.setText(data.Desexed);
+  ClinicNameFiled.setText(data.ClinicDetails);
+  address1Field.setText(data.ClinicAddress);
+  surnameField.setText(data.VetSurname);
+  firstnameField.setText(data.VetFirstName);
 
   historyField.setText(clinicalHistory);
   descriptionField.setText(description);

@@ -49,7 +49,7 @@ let clinic = {
 };
 // expected response
 let expectedResponse = {
-  Age: "44 y 2 m 11 d",
+  Age: "44 y 3 m 13 d",
   AnimalName: "Bessie",
   Sex: "Female",
   Owner: "test Owner",

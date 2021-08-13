@@ -12,10 +12,10 @@ afterEach(() => {
 
 //valid data
 let validData = {
-  params: { requestCode: "US10674-DR28454" },
+  params: { requestCode: "AU10613-DR6209" },
   body: {
-    XCoord: 2,
-    YCoord: 3,
+    XCoord: "22,34",
+    YCoord: "32,44",
     Radious: 4,
     clinicalHistory: "No history",
     description: "this pet is healthy",
@@ -24,40 +24,10 @@ let validData = {
   },
 };
 
-let expectedResponse = {
-  recordsets: [
-    [
-      {
-        ID: 22,
-        XCoord: 2,
-        YCoord: 3,
-        Radious: 4,
-        ClinicalHisotry: "No history",
-        Desciption: "this pet is healthy",
-        CytologyFidngs: "No findings",
-        DifferntialDiagonlse: "nope",
-        RequestCode: "US10674-DR28454",
-      },
-    ],
-  ],
-};
-
-let expectdJSON = {
-  ID: 22,
-  XCoord: 2,
-  YCoord: 3,
-  Radious: 4,
-  ClinicalHisotry: "No history",
-  Desciption: "this pet is healthy",
-  CytologyFidngs: "No findings",
-  DifferntialDiagonlse: "nope",
-  RequestCode: "US10674-DR28454",
-};
-test("return 200 - properly update record", async () => {
+test("return 200 - properly send PDF to client", async () => {
   let req = validData;
-  DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(expectedResponse);
   await updatePetsRecord(req, res);
-  expect(res.json).toHaveBeenCalledWith(expectdJSON);
+  expect(res.status).toHaveBeenCalledWith(200);
 });
 
 test("return 404 - invald requestCode", async () => {

@@ -7,7 +7,7 @@ export const fillInStoredData = async (req, res) => {
 
   try {
     if (!isRequestCode) {
-      return res.status(400).send("page could not be found");
+      return res.status(404).send("page could not be found");
     }
 
     const checkPdfStatus = await DBdata.checkPdfStatus(requestCode);

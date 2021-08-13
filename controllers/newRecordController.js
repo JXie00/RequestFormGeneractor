@@ -68,10 +68,10 @@ export const updatePetsRecord = async (req, res) => {
       clinicalHistory,
       description,
       cytologyFindings,
-      differentialDiag
+      differentialDiag,
+      requestCode
     );
 
-    // res.status(200).send("succeed");
     res.set("Content-Type", "application/pdf");
     res.type("application/pdf");
     res.download("./filled.pdf");
