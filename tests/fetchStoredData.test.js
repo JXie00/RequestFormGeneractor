@@ -1,9 +1,9 @@
 import { fillInStoredData } from "../controllers/fetchStoredData.js";
-import { DBdata } from "../database/retriveData.js";
+import DBdata from "../database/retriveData.js";
 import { mockRequest, mockResponse } from "./mock.js";
 
 let res = mockResponse();
-jest.mock("../database/reretriveData");
+jest.mock("../database/retriveData.js");
 
 afterEach(() => {
   res = mockResponse();
@@ -43,31 +43,25 @@ let expectedResponse = {
 };
 
 test("return 200 - properly retrive data from DB", async () => {
-  DBdata.checkpdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
   DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(expectedResponse);
   await fillInStoredData(req, res);
-  expect(res.json).toHaveBeenCalledWith(200);
+  expect(res.status).toHaveBeenCalledWith(200);
 });
 
 test("return 404 - invalid requestCode", async () => {
   let req = { params: { requestCode: "2dsdwdsd" } };
   await fillInStoredData(req, res);
-  expect(res.json).toHaveBeenCalledWith(404);
+  expect(res.status).toHaveBeenCalledWith(404);
 });
 
 test("return empty - ID is undefined", async () => {
   let ID = {
-    recordsets: [
-      [
-        {
-          undefined,
-        },
-      ],
-    ],
+    recordsets: [[undefined]],
   };
-  DBdata.checkpdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
   await fillInStoredData(req, res);
   expect(res.json).toHaveBeenCalledWith("");
 });
 
-test("return 400 - catch error", async () => {});
+test("return 400 - catch error requestCode not exist in DB", async () => {});

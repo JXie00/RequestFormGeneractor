@@ -1,8 +1,8 @@
 import { PDFDocument } from "pdf-lib";
 import fs from "fs";
 import onPDFLcationCalculation from "../utilities/onPDFLocationCalculation.js";
-import axios from "axios";
 import { getDate } from "../utilities/getDate.js";
+import fetchInitialData from "../utilities/fetchInitialData.js";
 
 const fillPDFForm = async (
   xCoord,
@@ -20,6 +20,8 @@ const fillPDFForm = async (
   const page = pdfDoc.getPages()[0];
   await onPDFLcationCalculation(xCoord, yCoord, radious, page);
   const form = pdfDoc.getForm();
+
+  //get all field of PDF, may used for future development
   // const fields = form.getFields();
   // fields.forEach((field) => {
   //   const type = field.constructor.name;
@@ -44,10 +46,9 @@ const fillPDFForm = async (
   const cytologyFindingsfield = form.getTextField("untitled34");
   const differentialDiagfield = form.getTextField("untitled35");
   const dateField = form.getTextField("untitled26");
+
   //call get request to fill in data retrived from DB
-  const res = await axios.get(
-    `http://localhost:${process.env.port}/pets/${requestCode}`
-  );
+  const res = await fetchInitialData(requestCode);
   const { data } = res;
   ageField.setText(data.Age);
   animalNameField.setText(data.AnimalName);
@@ -60,6 +61,7 @@ const fillPDFForm = async (
   address1Field.setText(data.ClinicAddress);
   surnameField.setText(data.VetSurname);
   firstnameField.setText(data.VetFirstName);
+  refNumberField.setText(requestCode);
 
   historyField.setText(clinicalHistory);
   descriptionField.setText(description);

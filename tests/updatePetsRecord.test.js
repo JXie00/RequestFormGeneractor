@@ -3,7 +3,8 @@ import DBdata from "../database/retriveData.js";
 import { mockResponse, mockRequest } from "./mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData");
+jest.mock("../database/retriveData.js");
+jest.mock("../controllers/fillPDF.js");
 
 afterEach(() => {
   res = mockResponse();

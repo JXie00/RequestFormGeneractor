@@ -16,7 +16,7 @@ export const fillInStoredData = async (req, res) => {
 
     const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
     const storedData = retriveDBData.recordsets[0][0];
-    res.json(storedData);
+    res.status(200).json(storedData);
   } catch (err) {
     res.status(400).send(err);
   }

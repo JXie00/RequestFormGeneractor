@@ -1,5 +1,5 @@
 import express from "express";
-import retrivePetsGeneralData from "../controllers/fetchDataController.js";
+import retrivePetsGeneralData from "../controllers/fetchGeneralDataController.js";
 import {
   createNewPetsRecord,
   updatePetsRecord,

@@ -1,9 +1,9 @@
-import retrivePetsGeneralData from "../controllers/fetchDataController.js";
+import retrivePetsGeneralData from "../controllers/fetchGeneralDataController.js";
 import DBdata from "../database/retriveData.js";
 import { mockResponse, mockRequest } from "./mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData");
+jest.mock("../database/retriveData.js");
 
 afterEach(() => {
   res = mockResponse();
@@ -49,7 +49,7 @@ let clinic = {
 };
 // expected response
 let expectedResponse = {
-  Age: "44 y 3 m 13 d",
+  Age: "44 y 3 m 17 d",
   AnimalName: "Bessie",
   Sex: "Female",
   Owner: "test Owner",
