@@ -21,7 +21,7 @@ const fillPDFForm = async (
   await onPDFLcationCalculation(xCoord, yCoord, radious, page);
   const form = pdfDoc.getForm();
 
-  //get all field of PDF, may used for future development
+  //get all field of PDF, may use for future development
   // const fields = form.getFields();
   // fields.forEach((field) => {
   //   const type = field.constructor.name;
@@ -70,7 +70,7 @@ const fillPDFForm = async (
   dateField.setText(getDate());
 
   const pdfByte = await pdfDoc.save({ updateFieldAppearances: true });
-  fs.writeFileSync("./filled.pdf", pdfByte);
+  return pdfByte;
 };
 
 export default fillPDFForm;

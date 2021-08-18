@@ -61,7 +61,7 @@ export const updatePetsRecord = async (req, res) => {
       requestCode
     );
 
-    await fillPDFForm(
+    const pdf = await fillPDFForm(
       XCoord,
       YCoord,
       Radious,
@@ -72,7 +72,8 @@ export const updatePetsRecord = async (req, res) => {
       requestCode
     );
 
-    res.status(200).download("./filled.pdf");
+    res.contentType("application/pdf");
+    res.status(200).send(Buffer.from(pdf));
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
