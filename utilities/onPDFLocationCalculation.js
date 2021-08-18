@@ -1,9 +1,13 @@
 import { rgb } from "pdf-lib";
 const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
   if (xCoord === "") return;
-
+  if (yCoord === "") return;
   xCoord = xCoord.split(",");
   yCoord = yCoord.split(",");
+
+  if (xCoord.some(isNaN)) return;
+  if (yCoord.some(isNaN)) return;
+
   const pdfXCoordStartPostion = 300;
   const pdfYCoordStartPostion = 643;
   const pdfXCoordRatio = 1.58;
