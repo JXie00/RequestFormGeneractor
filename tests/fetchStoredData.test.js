@@ -64,4 +64,26 @@ test("return empty - ID is undefined", async () => {
   expect(res.json).toHaveBeenCalledWith("");
 });
 
-test("return 400 - catch error requestCode not exist in DB", async () => {});
+test("return 400 - catch error returned incorrect data misssing recordsets", async () => {
+  let falseReturn = {
+    re: [
+      [
+        {
+          ID: 22,
+          X_COORD: "232,23,334",
+          Y_COORD: "322,23,23",
+          Radious: 5,
+          ClinicalHisotry: "3 '",
+          Desciption: "yo ",
+          CytologyFidngs: "noenddd,g,d s",
+          DifferntialDiagonlse: "abceweewe23w,w, edd",
+          RequestCode: "AU10613-DR4983",
+        },
+      ],
+    ],
+  };
+  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(falseReturn);
+  await fillInStoredData(req, res);
+  expect(res.status).toHaveBeenCalledWith(400);
+});

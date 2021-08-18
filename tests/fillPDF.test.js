@@ -14,7 +14,7 @@ afterEach(() => {
 const APIreturnedData = {
   data: {
     Age: "44 y 3 m 17 d",
-    AnimalName: "Bessie",
+    AnimalName: "test",
     Sex: "Female",
     Owner: "test Owner",
     Species: "Feline",
@@ -27,18 +27,19 @@ const APIreturnedData = {
   },
 };
 
-let XCoord = "23,12,434,3";
-let YCoord = "23,23,2,32";
+let XCoord = "";
+let YCoord = "";
 let radious = 5;
 let clinicalHistory = "";
 let description = "";
 let cytologyFindings = "";
 let differentialDiag = "";
-let requestCode = "AU10721-DR5096";
+let requestCode = "AU10613-DR4983";
 
 test("properly manipulate PDF", async () => {
   fetchInitialData.default = jest.fn().mockReturnValue(APIreturnedData);
-  await fillPDFForm(
+
+  const pdf = await fillPDFForm(
     XCoord,
     YCoord,
     radious,
@@ -48,6 +49,7 @@ test("properly manipulate PDF", async () => {
     differentialDiag,
     requestCode
   );
-
-  expect(fillPDFForm.length).toEqual(8);
+  fs.writeFileSync("./test.pdf", pdf);
+  const testPDf = fs.readFileSync("./test.pdf");
+  expect(pdf).toStrictEqual(testPDf);
 });

@@ -72,8 +72,7 @@ export const updatePetsRecord = async (req, res) => {
       requestCode
     );
 
-    res.contentType("application/pdf");
-    res.status(200).send(Buffer.from(pdf));
+    res.status(200).send(pdf);
   } catch (err) {
     console.log(err);
     res.status(400).send(err);

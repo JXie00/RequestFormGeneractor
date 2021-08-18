@@ -70,7 +70,7 @@ const fillPDFForm = async (
   dateField.setText(getDate());
 
   const pdfByte = await pdfDoc.save({ updateFieldAppearances: true });
-  return pdfByte;
+  return Buffer.from(pdfByte);
 };
 
 export default fillPDFForm;

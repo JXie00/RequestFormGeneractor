@@ -54,20 +54,19 @@ test("return 400 - entered invalid Data", async () => {
   expect(res.status).toHaveBeenCalledWith(400);
 });
 
-test("return 400 - undefined Data missing :missing recordsets", async () => {
-  let req = validData;
-  let undefinedData = {
-    ID: 22,
-    Xrd: 2,
-    YCoord: 3,
-    Radious: 4,
-    ClinicalHisotry: "No history",
-    Desciption: "this pet is healthy",
-    CytologyFidngs: "No findings",
-    DifferntialDiagonlse: "nope",
-    RequestCode: "US10674-DR28454",
+test("return 400 - undefined Data missing :missing body", async () => {
+  let req = {
+    params: { requestCode: "US10674-DR28454" },
+    ody: {
+      XCoord: "2",
+      YCoord: "3",
+      Radious: 4,
+      clinicalHistory: "No history",
+      description: "this pet is healthy",
+      cytologyFindings: "No findings",
+      differentialDiag: "nope",
+    },
   };
-  DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(undefinedData);
   await updatePetsRecord(req, res);
   expect(res.status).toHaveBeenCalledWith(400);
 });
