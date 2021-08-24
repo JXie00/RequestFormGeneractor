@@ -13,21 +13,20 @@ const retrivePetsGeneralData = async (req, res) => {
     }
     //petInfo
     const petInformation = await DBdata.retrivePetInfo(requestCode);
-    // if (petInformation === undefined) return;
     const petInfo = petInformation.recordsets[0][0];
+    if (petInfo === undefined)
+      return res.status(404).send("page could not found");
     const age = ageCalculation(petInfo.PatDOB);
     const animalName = petInfo.PatFirstName;
     let sex = getSexFromAbbreviation(petInfo.PatSex);
     //ownerInfo
 
     const ownerInformation = await DBdata.retriveOwnerInfo(requestCode);
-    // if (ownerInformation === undefined) return;
     const ownerInfo = ownerInformation.recordsets[0][0];
     const { Owner, Species, Breed, Desexed } = ownerInfo;
 
     //ClinicInfo
     const ClinicInformation = await DBdata.retriveClinicInfo(requestCode);
-    // if (ClinicInformation === undefined) return;
     const ClinicInfo = ClinicInformation.recordsets[0][0];
     const address = `${ClinicInfo.Address2} ,${ClinicInfo.Suburb} ,${ClinicInfo.State} ${ClinicInfo.Postcode}`;
     const { Address1, Surname, FirstName } = ClinicInfo;

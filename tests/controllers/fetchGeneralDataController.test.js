@@ -92,6 +92,18 @@ test("return 400 - invalid PetData", async () => {
   expect(res.status).toHaveBeenCalledWith(400);
 });
 
+test("return 404, requestCode does not exist in DB", async () => {
+  let undifinedPetInfo = {
+    recordsets: [[undefined]],
+  };
+
+  DBdata.retrivePetInfo = jest.fn().mockReturnValue(undifinedPetInfo);
+  DBdata.retriveOwnerInfo = jest.fn().mockReturnValue(owner);
+  DBdata.retriveClinicInfo = jest.fn().mockReturnValue(clinic);
+  await retrivePetsGeneralData(req, res);
+  expect(res.status).toHaveBeenCalledWith(404);
+});
+
 test("return 400 -invalid OwnerData", async () => {
   let req = { params: { requestCode: "US10674-DR28454" } };
   let invalidOwnerDta = {
