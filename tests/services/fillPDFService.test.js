@@ -1,11 +1,11 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
-import fillPDFForm from "../controllers/fillPDF.js";
-import * as fetchInitialData from "../utilities/fetchInitialData.js";
-import { mockRequest, mockResponse } from "./mock.js";
+import fillPDFForm from "../../services/fillPDFService.js";
+import * as fetchInitialData from "../../utilities/fetchInitialData.js";
+import { mockRequest, mockResponse } from "../mock.js";
 import fs from "fs";
 
 let res = mockResponse();
-jest.mock("../utilities/fetchInitialData.js");
+jest.mock("../../utilities/fetchInitialData.js");
 afterEach(() => {
   res = mockResponse();
   jest.fn().mockClear();

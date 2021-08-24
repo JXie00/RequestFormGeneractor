@@ -1,10 +1,10 @@
-import { updatePetsRecord } from "../controllers/newRecordController.js";
-import DBdata from "../database/retriveData.js";
-import { mockResponse, mockRequest } from "./mock.js";
+import { updatePetsRecord } from "../../controllers/newRecordController.js";
+import DBdata from "../../database/retriveData.js";
+import { mockResponse, mockRequest } from "../mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData.js");
-jest.mock("../controllers/fillPDF.js");
+jest.mock("../../database/retriveData.js");
+jest.mock("../../services/fillPDFService.js");
 
 afterEach(() => {
   res = mockResponse();

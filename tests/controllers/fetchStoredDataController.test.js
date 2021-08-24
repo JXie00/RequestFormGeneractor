@@ -1,9 +1,9 @@
-import { fillInStoredData } from "../controllers/fetchStoredData.js";
-import DBdata from "../database/retriveData.js";
-import { mockRequest, mockResponse } from "./mock.js";
+import { fillInStoredData } from "../../controllers/fetchStoredDataController.js";
+import DBdata from "../../database/retriveData.js";
+import { mockRequest, mockResponse } from "../mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData.js");
+jest.mock("../../database/retriveData.js");
 
 afterEach(() => {
   res = mockResponse();

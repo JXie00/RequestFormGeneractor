@@ -1,9 +1,9 @@
-import getSexFromAbbreviation from "../utilities/getSexFromAbbreviation.js";
+import getSexFromAbbreviation from "../../utilities/getSexFromAbbreviation.js";
 import { afterEach, expect, jest, test } from "@jest/globals";
 
 const mock = jest.fn();
 
-mock("../utilities/getSexFromAbbreviation.js");
+mock("../../utilities/getSexFromAbbreviation.js");
 
 afterEach(() => {
   jest.fn().mockClear();

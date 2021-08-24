@@ -1,9 +1,9 @@
-import { createNewPetsRecord } from "../controllers/newRecordController.js";
-import DBdata from "../database/retriveData.js";
-import { mockRequest, mockResponse } from "./mock.js";
+import { createNewPetsRecord } from "../../controllers/newRecordController.js";
+import DBdata from "../../database/retriveData.js";
+import { mockRequest, mockResponse } from "../mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData");
+jest.mock("../../database/retriveData");
 
 afterEach(() => {
   res = mockResponse();

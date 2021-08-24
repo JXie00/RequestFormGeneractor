@@ -4,7 +4,7 @@ import {
   createNewPetsRecord,
   updatePetsRecord,
 } from "../controllers/newRecordController.js";
-import { fillInStoredData } from "../controllers/fetchStoredData.js";
+import { fillInStoredData } from "../controllers/fetchStoredDataController.js";
 const router = express.Router();
 router.use(express.json());
 router.use(

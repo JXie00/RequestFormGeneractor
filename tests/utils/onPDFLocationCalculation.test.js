@@ -1,11 +1,11 @@
 import { JestEnvironment } from "@jest/environment";
 import { afterEach, expect, jest, test } from "@jest/globals";
-import onPDFLcationCalculation from "../utilities/onPDFLocationCalculation.js";
+import onPDFLcationCalculation from "../../utilities/onPDFLocationCalculation.js";
 import fs from "fs";
 import { PDFDocument } from "pdf-lib";
 
 const mock = jest.fn();
-mock("../utilities/onPDFLocationCalculation.js");
+mock("../../utilities/onPDFLocationCalculation.js");
 
 afterEach(() => {
   jest.fn().mockClear();
