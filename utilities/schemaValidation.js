@@ -4,13 +4,13 @@ const isValid = (body) => {
   let schema = {
     type: "object",
     properties: {
-      XCoord: {
+      xCoord: {
         type: "string",
       },
-      YCoord: {
+      yCoord: {
         type: "string",
       },
-      Radious: {
+      radius: {
         type: "number",
       },
       clinicalHistory: {

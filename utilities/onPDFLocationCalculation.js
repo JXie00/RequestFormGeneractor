@@ -1,5 +1,5 @@
 import { rgb } from "pdf-lib";
-const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
+const onPDFLcationCalculation = async (xCoord, yCoord, radius, page) => {
   if (xCoord === "" || yCoord === "") return;
   xCoord = xCoord.split(",");
   yCoord = yCoord.split(",");
@@ -26,7 +26,7 @@ const onPDFLcationCalculation = async (xCoord, yCoord, radious, page) => {
     page.drawCircle({
       x: parseInt(xCoord[i]),
       y: parseInt(yCoord[i]),
-      size: radious,
+      size: radius,
       borderColor: rgb(1, 0, 0),
       borderWidth: 2,
       opacity: 1,

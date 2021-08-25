@@ -21,21 +21,18 @@ export const createNewPetsRecord = async (req, res) => {
       confirmation: "succeed",
     });
   } catch (err) {
-    res.status(400).send(err);
+    res.status(404).send(err);
   }
 };
 
 export const updatePetsRecord = async (req, res) => {
   const { requestCode } = req.params;
-  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
+  if (!checkReferenceCodeFormat.test(requestCode)) {
+    return res.status(404).send("page could not be found");
+  }
 
   try {
-    if (!isRequestCode) {
-      return res.status(404).send("page could not be found");
-    }
-
     const { body } = req;
-
     if (!schemaValidation.isValid(body)) {
       return res.status(400).send("please enter valid data");
     }
