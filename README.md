@@ -1,17 +1,17 @@
 # Sample indicator
 
-\*\* Installation
+## Installation
 
 - clone the repo and install dependencies
 
-#+BEGIN_SRC sh
-npm install
-#+END_SRC
+### `npm install`
 
-rename =.env.template= file to .env and fill in details
+rename `.env.template` file to `.env` and fill in details
 
-\*\* Usage
+## Usage
 
 - Run one of the commands
-  - =node index.js= to start the server with supplied config sourced form =.env= file
-  - =npm test= to run server test suite
+  - ### `node index.js`
+    to start the server with supplied config sourced form =.env= file
+  - ### `npm test`
+    to run server test suite
