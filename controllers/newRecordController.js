@@ -5,11 +5,11 @@ import fillPDFForm from "../services/fillPDFService.js";
 
 export const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
-  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
+
+  if (!checkReferenceCodeFormat.test(requestCode)) {
+    return res.status(404).send("page could not be found");
+  }
   try {
-    if (!isRequestCode) {
-      return res.status(404).send("page could not be found");
-    }
     const checkPdfStatus = await DBdata.checkPdfStatus(requestCode);
     let ID = checkPdfStatus.recordsets[0][0];
 
@@ -41,9 +41,9 @@ export const updatePetsRecord = async (req, res) => {
     }
 
     const {
-      XCoord,
-      YCoord,
-      Radious,
+      xCoord,
+      yCoord,
+      radius,
       clinicalHistory,
       description,
       cytologyFindings,
@@ -51,9 +51,9 @@ export const updatePetsRecord = async (req, res) => {
     } = body;
 
     await DBdata.updateDBTable(
-      XCoord,
-      YCoord,
-      Radious,
+      xCoord,
+      yCoord,
+      radius,
       clinicalHistory,
       description,
       cytologyFindings,
@@ -62,9 +62,9 @@ export const updatePetsRecord = async (req, res) => {
     );
 
     const pdf = await fillPDFForm(
-      XCoord,
-      YCoord,
-      Radious,
+      xCoord,
+      yCoord,
+      radius,
       clinicalHistory,
       description,
       cytologyFindings,
@@ -75,6 +75,6 @@ export const updatePetsRecord = async (req, res) => {
     res.status(200).send(pdf);
   } catch (err) {
     console.log(err);
-    res.status(400).send(err);
+    res.status(404).send(err);
   }
 };

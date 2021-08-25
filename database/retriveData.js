@@ -20,7 +20,7 @@ const retriveOwnerInfo = async (requestCode) => {
   );
   return ownerInformation;
 };
-const checkPdfStatus = async (requestCode) => {
+const checkPDFStatus = async (requestCode) => {
   const checkPdfstatus = await sql.query(
     `SELECT ID FROM dbo.sampleindicator where requestCode ='${requestCode}' `
   );
@@ -69,7 +69,7 @@ export default {
   retrivePetInfo,
   retriveClinicInfo,
   retriveOwnerInfo,
-  checkPdfStatus,
+  checkPDFStatus,
   insertRequestCode,
   retriveCurrentPDFData,
   updateDBTable,

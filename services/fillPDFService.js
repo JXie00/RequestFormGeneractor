@@ -7,7 +7,7 @@ import fetchInitialData from "../utilities/fetchInitialData.js";
 const fillPDFForm = async (
   xCoord,
   yCoord,
-  radious,
+  radius,
   clinicalHistory,
   description,
   cytologyFindings,
@@ -18,7 +18,7 @@ const fillPDFForm = async (
     fs.readFileSync("./constants/PDFen.pdf")
   );
   const page = pdfDoc.getPages()[0];
-  await onPDFLcationCalculation(xCoord, yCoord, radious, page);
+  await onPDFLcationCalculation(xCoord, yCoord, radius, page);
   const form = pdfDoc.getForm();
 
   //get all field of PDF, may use for future development
@@ -29,40 +29,20 @@ const fillPDFForm = async (
   //   console.log(`${type}: ${name}`);
   // });
 
-  const ownerNameField = form.getTextField("OwnerName");
-  const speciesField = form.getTextField("Species");
-  const breedField = form.getTextField("Breed");
-  const animalNameField = form.getTextField("AnimalName");
-  const genderField = form.getTextField("Gender");
-  const historyField = form.getTextField("History");
-  const descriptionField = form.getTextField("Codes");
-  const desexedField = form.getTextField("Desexed");
-  const refNumberField = form.getTextField("RefNumber");
-  const ClinicNameFiled = form.getTextField("ClinicName");
-  const address1Field = form.getTextField("Address1");
-  const firstnameField = form.getTextField("FirstName");
-  const surnameField = form.getTextField("Surname");
-  const ageField = form.getTextField("Age");
   const cytologyFindingsfield = form.getTextField("untitled34");
   const differentialDiagfield = form.getTextField("untitled35");
   const dateField = form.getTextField("untitled26");
+  const historyField = form.getTextField("History");
+  const descriptionField = form.getTextField("Codes");
+  const refNumberField = form.getTextField("RefNumber");
 
-  //call get request to fill in data retrived from DB
   const res = await fetchInitialData(requestCode);
   const { data } = res;
-  ageField.setText(data.Age);
-  animalNameField.setText(data.AnimalName);
-  genderField.setText(data.Sex);
-  ownerNameField.setText(data.Owner);
-  speciesField.setText(data.Species);
-  breedField.setText(data.Breed);
-  desexedField.setText(data.Desexed);
-  ClinicNameFiled.setText(data.ClinicDetails);
-  address1Field.setText(data.ClinicAddress);
-  surnameField.setText(data.VetSurname);
-  firstnameField.setText(data.VetFirstName);
-  refNumberField.setText(requestCode);
+  for (let i = 0; i < Object.keys(data).length; i++) {
+    form.getTextField(Object.keys(data)[i]).setText(Object.values(data)[i]);
+  }
 
+  refNumberField.setText(requestCode);
   historyField.setText(clinicalHistory);
   descriptionField.setText(description);
   cytologyFindingsfield.setText(cytologyFindings);

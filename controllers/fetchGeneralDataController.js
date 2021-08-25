@@ -5,12 +5,11 @@ import getSexFromAbbreviation from "../utilities/getSexFromAbbreviation.js";
 
 const retrivePetsGeneralData = async (req, res) => {
   const { requestCode } = req.params;
-  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
 
+  if (!checkReferenceCodeFormat.test(requestCode)) {
+    return res.status(404).send("page could not be found");
+  }
   try {
-    if (!isRequestCode) {
-      return res.status(404).send("page could not be found");
-    }
     //petInfo
     const petInformation = await DBdata.retrivePetInfo(requestCode);
     const petInfo = petInformation.recordsets[0][0];
@@ -26,28 +25,28 @@ const retrivePetsGeneralData = async (req, res) => {
     const { Owner, Species, Breed, Desexed } = ownerInfo;
 
     //ClinicInfo
-    const ClinicInformation = await DBdata.retriveClinicInfo(requestCode);
-    const ClinicInfo = ClinicInformation.recordsets[0][0];
-    const address = `${ClinicInfo.Address2} ,${ClinicInfo.Suburb} ,${ClinicInfo.State} ${ClinicInfo.Postcode}`;
-    const { Address1, Surname, FirstName } = ClinicInfo;
+    const clinicInformation = await DBdata.retriveClinicInfo(requestCode);
+    const clinicInfo = clinicInformation.recordsets[0][0];
+    const address = `${clinicInfo.Address2}, ${clinicInfo.Suburb}, ${clinicInfo.State} ${clinicInfo.Postcode}`;
+    const { Address1, Surname, FirstName } = clinicInfo;
 
     const data = {
       Age: age,
       AnimalName: animalName,
-      Sex: sex,
-      Owner: Owner,
+      Gender: sex,
+      OwnerName: Owner,
       Species: Species,
       Breed: Breed,
       Desexed: Desexed,
-      ClinicDetails: Address1,
-      ClinicAddress: address,
-      VetSurname: Surname,
-      VetFirstName: FirstName,
+      ClinicName: Address1,
+      Address1: address,
+      Surname: Surname,
+      FirstName: FirstName,
     };
 
     res.json(data);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(404).send(err);
   }
 };
 export default retrivePetsGeneralData;
