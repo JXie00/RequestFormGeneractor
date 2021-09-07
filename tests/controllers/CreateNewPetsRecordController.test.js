@@ -19,7 +19,7 @@ let ID = {
 let expectResponse = { confirmation: "succeed" };
 
 test("return 200 - properly insert RequestCode", async () => {
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   await createNewPetsRecord(req, res);
   expect(res.json).toHaveBeenCalledWith(expectResponse);
 });
@@ -40,7 +40,7 @@ test("return 400 - there is an ID in DB", async () => {
       ],
     ],
   };
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   await createNewPetsRecord(req, res);
   expect(res.status).toHaveBeenCalledWith(400);
 });
@@ -49,7 +49,7 @@ test("return 400 - undefined Data: missing recordsets", async () => {
   let ID = {
     ID: 2,
   };
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   await createNewPetsRecord(req, res);
   expect(res.status).toHaveBeenCalledWith(404);
 });
