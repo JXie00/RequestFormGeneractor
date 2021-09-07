@@ -43,7 +43,7 @@ let expectedResponse = {
 };
 
 test("return 200 - properly retrive data from DB", async () => {
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(expectedResponse);
   await fillInStoredData(req, res);
   expect(res.status).toHaveBeenCalledWith(200);
@@ -59,7 +59,7 @@ test("return empty - ID is undefined", async () => {
   let ID = {
     recordsets: [[undefined]],
   };
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   await fillInStoredData(req, res);
   expect(res.json).toHaveBeenCalledWith("");
 });
@@ -82,8 +82,8 @@ test("return 400 - catch error returned incorrect data misssing recordsets", asy
       ],
     ],
   };
-  DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
+  DBdata.checkPDFStatus = jest.fn().mockReturnValue(ID);
   DBdata.retriveCurrentPDFData = jest.fn().mockReturnValue(falseReturn);
   await fillInStoredData(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });

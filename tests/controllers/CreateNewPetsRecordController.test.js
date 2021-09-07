@@ -51,5 +51,5 @@ test("return 400 - undefined Data: missing recordsets", async () => {
   };
   DBdata.checkPdfStatus = jest.fn().mockReturnValue(ID);
   await createNewPetsRecord(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });

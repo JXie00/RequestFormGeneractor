@@ -49,17 +49,17 @@ let clinic = {
 };
 // expected response
 let expectedResponse = {
-  Age: "44 y 3 m 25 d",
+  Age: "44 y 4 m 8 d",
   AnimalName: "Bessie",
-  Sex: "Female",
-  Owner: "test Owner",
+  Gender: "Female",
+  OwnerName: "test Owner",
   Species: "Feline",
   Breed: "European Shorthair",
   Desexed: "Yes",
-  ClinicDetails: "mock test Hospital",
-  ClinicAddress: "15-20 test Street ,infinity ,QLD 4000",
-  VetSurname: "tests",
-  VetFirstName: "Andrew",
+  ClinicName: "mock test Hospital",
+  Address1: "15-20 test Street, infinity, QLD 4000",
+  Surname: "tests",
+  FirstName: "Andrew",
 };
 
 test("return 200 - properly retrive data from DB", async () => {
@@ -89,7 +89,7 @@ test("return 400 - invalid PetData", async () => {
   DBdata.retriveOwnerInfo = jest.fn().mockReturnValue(owner);
   DBdata.retriveClinicInfo = jest.fn().mockReturnValue(clinic);
   await retrivePetsGeneralData(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });
 
 test("return 404, requestCode does not exist in DB", async () => {
@@ -114,7 +114,7 @@ test("return 400 -invalid OwnerData", async () => {
   DBdata.retrivePetInfo = jest.fn().mockReturnValue(petInfo);
   DBdata.retriveClinicInfo = jest.fn().mockReturnValue(clinic);
   await retrivePetsGeneralData(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });
 
 test("return 400 -invalid ClinicData", async () => {
@@ -133,5 +133,5 @@ test("return 400 -invalid ClinicData", async () => {
   DBdata.retriveClinicInfo = jest.fn().mockReturnValue(invalidClinicData);
 
   await retrivePetsGeneralData(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });

@@ -41,9 +41,9 @@ test("return 400 - entered invalid Data", async () => {
   let req = {
     params: { requestCode: "US10674-DR28454" },
     body: {
-      XCoord: 2,
+      xCoord: 2,
       YCoord: 3,
-      Radious: "4",
+      Radius: "4",
       clinicalHistory: "No history",
       description: "this pet is healthy",
       cytologyFindings: "No findings",
@@ -68,5 +68,5 @@ test("return 400 - undefined Data missing :missing body", async () => {
     },
   };
   await updatePetsRecord(req, res);
-  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.status).toHaveBeenCalledWith(404);
 });

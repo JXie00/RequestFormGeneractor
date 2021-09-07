@@ -15,15 +15,15 @@ const APIreturnedData = {
   data: {
     Age: "44 y 3 m 17 d",
     AnimalName: "test",
-    Sex: "Female",
-    Owner: "test Owner",
+    Gender: "Female",
+    OwnerName: "test Owner",
     Species: "Feline",
     Breed: "European Shorthair",
     Desexed: "Yes",
-    ClinicDetails: "mock test Hospital",
-    ClinicAddress: "15-20 test Street ,infinity ,QLD 4000",
-    VetSurname: "tests",
-    VetFirstName: "Andrew",
+    ClinicName: "mock test Hospital",
+    Address1: "15-20 test Street ,infinity ,QLD 4000",
+    Surname: "tests",
+    FirstName: "Andrew",
   },
 };
 
