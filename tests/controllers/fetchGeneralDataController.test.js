@@ -1,9 +1,9 @@
-const retrivePetsGeneralData = require("../controllers/fetchDataController");
-const DBdata = require("../database/retriveData");
-const { mockResponse, mockRequest } = require("./mock");
+import retrivePetsGeneralData from "../../controllers/fetchGeneralDataController.js";
+import DBdata from "../../database/retriveData.js";
+import { mockResponse, mockRequest } from "../mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData");
+jest.mock("../../database/retriveData.js");
 
 afterEach(() => {
   res = mockResponse();
@@ -49,7 +49,7 @@ let clinic = {
 };
 // expected response
 let expectedResponse = {
-  Age: "44 y 2 m 11 d",
+  Age: "44 y 3 m 25 d",
   AnimalName: "Bessie",
   Sex: "Female",
   Owner: "test Owner",
@@ -90,6 +90,18 @@ test("return 400 - invalid PetData", async () => {
   DBdata.retriveClinicInfo = jest.fn().mockReturnValue(clinic);
   await retrivePetsGeneralData(req, res);
   expect(res.status).toHaveBeenCalledWith(400);
+});
+
+test("return 404, requestCode does not exist in DB", async () => {
+  let undifinedPetInfo = {
+    recordsets: [[undefined]],
+  };
+
+  DBdata.retrivePetInfo = jest.fn().mockReturnValue(undifinedPetInfo);
+  DBdata.retriveOwnerInfo = jest.fn().mockReturnValue(owner);
+  DBdata.retriveClinicInfo = jest.fn().mockReturnValue(clinic);
+  await retrivePetsGeneralData(req, res);
+  expect(res.status).toHaveBeenCalledWith(404);
 });
 
 test("return 400 -invalid OwnerData", async () => {

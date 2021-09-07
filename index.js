@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const connectDB = require("./database/connection");
+import connectDB from "./database/connection.js";
 
-const routes = require("./routes/routes");
+import routes from "./routes/routes.js";
 
 connectDB();
 
@@ -24,4 +24,4 @@ app.use((req, res, next) => {
 
 app.use("/", routes);
 
-module.exports = app;
+export default app;

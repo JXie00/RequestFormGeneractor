@@ -1,9 +1,9 @@
-const { createNewPetsRecord } = require("../controllers/newRecordController");
-const DBdata = require("../database/retriveData");
-const { mockRequest, mockResponse } = require("./mock");
+import { createNewPetsRecord } from "../../controllers/newRecordController.js";
+import DBdata from "../../database/retriveData.js";
+import { mockRequest, mockResponse } from "../mock.js";
 
 let res = mockResponse();
-jest.mock("../database/retriveData");
+jest.mock("../../database/retriveData");
 
 afterEach(() => {
   res = mockResponse();

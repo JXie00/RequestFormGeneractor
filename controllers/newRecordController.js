@@ -1,14 +1,15 @@
-const DBdata = require("../database/retriveData");
-const checkReferenceCodeFormat = require("../constants/regex");
-const schemaValidation = require("../utilities/schemaValidation");
+import DBdata from "../database/retriveData.js";
+import checkReferenceCodeFormat from "../constants/regex.js";
+import schemaValidation from "../utilities/schemaValidation.js";
+import fillPDFForm from "../services/fillPDFService.js";
 
-const createNewPetsRecord = async (req, res) => {
+export const createNewPetsRecord = async (req, res) => {
   const { requestCode } = req.params;
-  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
+
+  if (!checkReferenceCodeFormat.test(requestCode)) {
+    return res.status(404).send("page could not be found");
+  }
   try {
-    if (!isRequestCode) {
-      return res.status(404).send("page could not be found");
-    }
     const checkPdfStatus = await DBdata.checkPdfStatus(requestCode);
     let ID = checkPdfStatus.recordsets[0][0];
 
@@ -20,29 +21,26 @@ const createNewPetsRecord = async (req, res) => {
       confirmation: "succeed",
     });
   } catch (err) {
-    res.status(400).send(err);
+    res.status(404).send(err);
   }
 };
 
-const updatePetsRecord = async (req, res) => {
+export const updatePetsRecord = async (req, res) => {
   const { requestCode } = req.params;
-  let isRequestCode = checkReferenceCodeFormat.test(requestCode);
+  if (!checkReferenceCodeFormat.test(requestCode)) {
+    return res.status(404).send("page could not be found");
+  }
 
   try {
-    if (!isRequestCode) {
-      return res.status(404).send("page could not be found");
-    }
-
     const { body } = req;
-
     if (!schemaValidation.isValid(body)) {
       return res.status(400).send("please enter valid data");
     }
 
     const {
-      XCoord,
-      YCoord,
-      Radious,
+      xCoord,
+      yCoord,
+      radius,
       clinicalHistory,
       description,
       cytologyFindings,
@@ -50,9 +48,9 @@ const updatePetsRecord = async (req, res) => {
     } = body;
 
     await DBdata.updateDBTable(
-      XCoord,
-      YCoord,
-      Radious,
+      xCoord,
+      yCoord,
+      radius,
       clinicalHistory,
       description,
       cytologyFindings,
@@ -60,24 +58,20 @@ const updatePetsRecord = async (req, res) => {
       requestCode
     );
 
-    const retriveDBData = await DBdata.retriveCurrentPDFData(requestCode);
-    let storedData = retriveDBData.recordsets[0][0];
-    // const {
-    //   X_COORD,
-    //   Y_COORD,
-    //   Radious,
-    //   ClinicalHisotry,
-    //   Desciption,
-    //   CytologyFidngs,
-    //   DifferntialDiagonlse,
-    // } = DBdata;
+    const pdf = await fillPDFForm(
+      xCoord,
+      yCoord,
+      radius,
+      clinicalHistory,
+      description,
+      cytologyFindings,
+      differentialDiag,
+      requestCode
+    );
 
-    // res.status(200).send("succeed");
-    res.json(storedData);
+    res.status(200).send(pdf);
   } catch (err) {
     console.log(err);
-    res.status(400).send(err);
+    res.status(404).send(err);
   }
 };
-
-module.exports = { createNewPetsRecord, updatePetsRecord };

@@ -1,16 +1,16 @@
-const { Validator } = require("jsonschema");
+import { Validator } from "jsonschema";
 const V = new Validator();
 const isValid = (body) => {
   let schema = {
     type: "object",
     properties: {
-      XCoord: {
+      xCoord: {
         type: "string",
       },
-      YCoord: {
+      yCoord: {
         type: "string",
       },
-      Radious: {
+      radius: {
         type: "number",
       },
       clinicalHistory: {
@@ -30,4 +30,4 @@ const isValid = (body) => {
 
   return V.validate(body, schema).valid;
 };
-module.exports = { isValid };
+export default { isValid };

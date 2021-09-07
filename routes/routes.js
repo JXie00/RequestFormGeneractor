@@ -1,4 +1,10 @@
-const express = require("express");
+import express from "express";
+import retrivePetsGeneralData from "../controllers/fetchGeneralDataController.js";
+import {
+  createNewPetsRecord,
+  updatePetsRecord,
+} from "../controllers/newRecordController.js";
+import { fillInStoredData } from "../controllers/fetchStoredDataController.js";
 const router = express.Router();
 router.use(express.json());
 router.use(
@@ -6,11 +12,6 @@ router.use(
     extended: true,
   })
 );
-const retrivePetsGeneralData = require("../controllers/fetchDataController");
-const {
-  createNewPetsRecord,
-  updatePetsRecord,
-} = require("../controllers/newRecordController");
 
 router.get("/pets/:requestCode", retrivePetsGeneralData);
 
@@ -18,4 +19,6 @@ router.post("/pets/:requestCode", createNewPetsRecord);
 
 router.put("/pets/:requestCode", updatePetsRecord);
 
-module.exports = router;
+router.get("/storedData/:requestCode", fillInStoredData);
+
+export default router;

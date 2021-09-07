@@ -1,4 +1,4 @@
-const sql = require("mssql");
+import sql from "mssql";
 
 const retrivePetInfo = async (requestCode) => {
   const petInformation = await sql.query(
@@ -20,7 +20,7 @@ const retriveOwnerInfo = async (requestCode) => {
   );
   return ownerInformation;
 };
-const checkPdfStatus = async (requestCode) => {
+const checkPDFStatus = async (requestCode) => {
   const checkPdfstatus = await sql.query(
     `SELECT ID FROM dbo.sampleindicator where requestCode ='${requestCode}' `
   );
@@ -65,11 +65,11 @@ const updateDBTable = async (
   await request.query(statment);
 };
 
-module.exports = {
+export default {
   retrivePetInfo,
   retriveClinicInfo,
   retriveOwnerInfo,
-  checkPdfStatus,
+  checkPDFStatus,
   insertRequestCode,
   retriveCurrentPDFData,
   updateDBTable,
